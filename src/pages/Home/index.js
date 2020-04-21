@@ -1,7 +1,8 @@
 import React from "react";
+import { P5 } from "./styles";
 
 // import { Container } from './styles';
 
 export default function Home() {
-  return <h1>home</h1>;
+  return <P5 />;
 }
