@@ -7,8 +7,8 @@ export const P5 = styled.div`
   display: block;
   height: 600px;
   width: 50%;
-  background-color: #ddd;
-  border: solid 1px #aaa;
+  background-color: #eee;
+  border: solid 1px #ddd;
   border-radius: 4px;
   margin: auto;
 `;
