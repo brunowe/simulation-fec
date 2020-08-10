@@ -9,7 +9,6 @@ export default class App extends React.Component {
     return (
       <BrowserRouter>
         <Routes />
-        <h1>olá</h1>
       </BrowserRouter>
     );
   }
