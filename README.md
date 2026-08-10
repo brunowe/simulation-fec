@@ -1,68 +1,126 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Cooling Schedule Explorer
 
-## Available Scripts
+An interactive front-end prototype that turns initial temperature, final
+temperature, and cooling rate into a linear schedule with a
+microstructure-inspired p5.js visualization.
 
-In the project directory, you can run:
+> **Important:** this project is illustrative and non-predictive. It is not a
+> materials-science or engineering model and does not calculate phase fractions,
+> material properties, or physical grain growth.
 
-### `yarn start`
+## Why this project exists
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The repository began as an early React and p5.js experiment. This rebuild turns
+that mockup into a focused portfolio case: the inputs now drive a real, testable
+calculation; the interface explains its limits; and the visualization is
+responsive and accessible without pretending to be scientifically calibrated.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## What it does
 
-### `yarn test`
+- Validates initial temperature, final temperature, and cooling rate.
+- Calculates a linear cooling schedule and its duration.
+- Plots temperature over time in an accessible SVG chart.
+- Lets the user play, pause, reset, or scrub through the schedule.
+- Sends normalized progress to a deterministic p5.js pattern.
+- Keeps the calculated physical duration separate from the short visual playback.
+- Runs automated domain and interface tests in GitHub Actions.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The implemented relationship is intentionally simple:
 
-### `yarn build`
+```text
+duration = (initialTemperature - finalTemperature) / coolingRate
+T(t) = max(finalTemperature, initialTemperature - coolingRate × t)
+```
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Tech stack
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+- React 19
+- Vite 8
+- p5.js 2 with `@p5-wrapper/react`
+- Vitest and Testing Library
+- GitHub Actions
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Run locally
 
-### `yarn eject`
+Requirements: Node.js `24.14+`, plus Corepack/pnpm.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```bash
+corepack enable
+pnpm install
+pnpm dev
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Then open the local URL printed by Vite.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Verify
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```bash
+pnpm test
+pnpm build
+```
 
-## Learn More
+The CI workflow runs both commands for every pull request.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Architecture
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```text
+src/
+├── App.jsx                         # Form, playback, and application state
+├── components/
+│   ├── CoolingChart.jsx            # Accessible SVG schedule
+│   └── MicrostructureCanvas.jsx    # React-to-p5 adapter and visual sketch
+├── domain/
+│   ├── cooling.js                  # Pure validation and schedule math
+│   └── cooling.test.js
+├── test/setup.js
+├── App.test.jsx
+├── main.jsx
+└── styles.css
+```
 
-### Code Splitting
+The domain logic is independent of React and p5.js. This keeps the calculation
+easy to test and makes the boundary between data and illustration explicit.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+## Accessibility and interaction
 
-### Analyzing the Bundle Size
+- Inputs have persistent labels, units, and associated error messages.
+- Invalid values use `aria-invalid` and `aria-describedby`.
+- Status changes are announced through a polite live region.
+- The curve and conceptual visualization have accessible names.
+- Controls work by keyboard, and the layout adapts from mobile to desktop.
+- The p5.js sketch redraws only when its input changes instead of looping at 60 FPS.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+## Current limitations
 
-### Making a Progressive Web App
+- The schedule assumes a constant cooling rate.
+- The visual pattern is an aesthetic mapping of normalized progress only.
+- No alloy composition, CCT/TTT data, nucleation, diffusion, boundary mobility,
+  phase transformation, or material-property data is modeled.
+- There is no public deployment yet.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+These constraints are deliberate: the current case demonstrates front-end
+architecture and interaction design while keeping the scientific claim honest.
 
-### Advanced Configuration
+## Next steps
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+- Add a shareable URL for a validated configuration.
+- Publish a static demo after the first release is reviewed.
+- Add visual regression coverage for the responsive layouts.
+- Only introduce a scientific model when its inputs, assumptions, and reference
+  data can be documented and tested.
 
-### Deployment
+<details>
+<summary>Resumo em português</summary>
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+O projeto transforma temperatura inicial, temperatura final e taxa de
+resfriamento em uma curva linear interativa. A animação inspirada em
+microestruturas é apenas conceitual: ela não prevê fases, propriedades do
+material nem crescimento físico de grãos. O objetivo atual é demonstrar
+arquitetura front-end, validação, acessibilidade, testes e integração entre
+React e p5.js.
 
-### `yarn build` fails to minify
+</details>
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+## License
+
+No license has been selected for this repository yet.
