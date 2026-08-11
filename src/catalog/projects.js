@@ -40,7 +40,7 @@ export const projects = Object.freeze([
     title: "Laser FEM",
     summary:
       "A planned finite-element experiment related to laser processes. Its governing model and implementation scope have not yet been defined.",
-    scientificArea: "Laser–matter interaction",
+    scientificArea: "Laser-matter interaction",
     numericalMethod: "Finite element method",
     status: PROJECT_STATUS.PLANNED,
     technologies: Object.freeze([]),
