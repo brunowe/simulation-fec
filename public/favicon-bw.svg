@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>Bruno Weber Simulation Lab</title>
+  <rect x="4" y="4" width="56" height="56" rx="14" fill="#111a20" stroke="#5ee7e7" stroke-width="4" />
+  <text x="13" y="44" fill="#f8fbff" font-family="Arial Narrow, Avenir Next Condensed, sans-serif" font-size="34" font-weight="800" lengthAdjust="spacingAndGlyphs" textLength="17">B</text>
+  <text x="32" y="44" fill="#5ee7e7" font-family="Arial Narrow, Avenir Next Condensed, sans-serif" font-size="34" font-weight="800" lengthAdjust="spacingAndGlyphs" textLength="20">W</text>
+</svg>
