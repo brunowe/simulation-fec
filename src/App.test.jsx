@@ -54,7 +54,7 @@ describe("Bruno Weber - Simulation Lab", () => {
       expect(document.title).toBe("Grain Growth Model | Bruno Weber - Simulation Lab");
       expect(document.querySelector('link[rel="canonical"]')).toHaveAttribute(
         "href",
-        "https://gallant-tesla-a765dd.netlify.app/simulations/grain-growth",
+        "https://brunoweber-simlab.netlify.app/simulations/grain-growth",
       );
     });
     expect(screen.getByRole("main")).toHaveFocus();
