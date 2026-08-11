@@ -96,14 +96,14 @@ Quantitative material prediction would require a governing model and parameters 
 
 ### Scientific references
 
-1. R. B. Potts, “Some generalized order-disorder transformations,” *Mathematical Proceedings of the Cambridge Philosophical Society* **48**(1), 106–109 (1952). [doi:10.1017/S0305004100027419](https://doi.org/10.1017/S0305004100027419)
-2. N. Metropolis et al., “Equation of State Calculations by Fast Computing Machines,” *The Journal of Chemical Physics* **21**(6), 1087–1092 (1953). [doi:10.1063/1.1699114](https://doi.org/10.1063/1.1699114)
-3. M. P. Anderson et al., “Computer simulation of grain growth - I. Kinetics,” *Acta Metallurgica* **32**(5), 783–791 (1984). [doi:10.1016/0001-6160(84)90151-2](https://doi.org/10.1016/0001-6160(84)90151-2)
-4. D. J. Srolovitz et al., “Computer simulation of grain growth - II. Grain size distribution, topology, and local dynamics,” *Acta Metallurgica* **32**(5), 793–802 (1984). [doi:10.1016/0001-6160(84)90152-4](https://doi.org/10.1016/0001-6160(84)90152-4)
-5. G. S. Grest et al., “Domain-growth kinetics for the Q-state Potts model in two and three dimensions,” *Physical Review B* **38**(7), 4752–4760 (1988). [doi:10.1103/PhysRevB.38.4752](https://doi.org/10.1103/PhysRevB.38.4752)
-6. E. A. Holm et al., “Effects of lattice anisotropy and temperature on domain growth in the two-dimensional Potts model,” *Physical Review A* **43**(6), 2662–2668 (1991). [doi:10.1103/PhysRevA.43.2662](https://doi.org/10.1103/PhysRevA.43.2662)
-7. D. Raabe, “Scaling Monte Carlo kinetics of the Potts model using rate theory,” *Acta Materialia* **48**(7), 1617–1628 (2000). [doi:10.1016/S1359-6454(99)00451-6](https://doi.org/10.1016/S1359-6454(99)00451-6)
-8. J. K. Mason et al., “Kinetics and anisotropy of the Monte Carlo model of grain growth,” *Acta Materialia* **82**, 155–166 (2015). [doi:10.1016/j.actamat.2014.08.063](https://doi.org/10.1016/j.actamat.2014.08.063)
+1. R. B. Potts, “Some generalized order-disorder transformations,” *Mathematical Proceedings of the Cambridge Philosophical Society* **48**(1), 106-109 (1952). [doi:10.1017/S0305004100027419](https://doi.org/10.1017/S0305004100027419)
+2. N. Metropolis et al., “Equation of State Calculations by Fast Computing Machines,” *The Journal of Chemical Physics* **21**(6), 1087-1092 (1953). [doi:10.1063/1.1699114](https://doi.org/10.1063/1.1699114)
+3. M. P. Anderson et al., “Computer simulation of grain growth - I. Kinetics,” *Acta Metallurgica* **32**(5), 783-791 (1984). [doi:10.1016/0001-6160(84)90151-2](https://doi.org/10.1016/0001-6160(84)90151-2)
+4. D. J. Srolovitz et al., “Computer simulation of grain growth - II. Grain size distribution, topology, and local dynamics,” *Acta Metallurgica* **32**(5), 793-802 (1984). [doi:10.1016/0001-6160(84)90152-4](https://doi.org/10.1016/0001-6160(84)90152-4)
+5. G. S. Grest et al., “Domain-growth kinetics for the Q-state Potts model in two and three dimensions,” *Physical Review B* **38**(7), 4752-4760 (1988). [doi:10.1103/PhysRevB.38.4752](https://doi.org/10.1103/PhysRevB.38.4752)
+6. E. A. Holm et al., “Effects of lattice anisotropy and temperature on domain growth in the two-dimensional Potts model,” *Physical Review A* **43**(6), 2662-2668 (1991). [doi:10.1103/PhysRevA.43.2662](https://doi.org/10.1103/PhysRevA.43.2662)
+7. D. Raabe, “Scaling Monte Carlo kinetics of the Potts model using rate theory,” *Acta Materialia* **48**(7), 1617-1628 (2000). [doi:10.1016/S1359-6454(99)00451-6](https://doi.org/10.1016/S1359-6454(99)00451-6)
+8. J. K. Mason et al., “Kinetics and anisotropy of the Monte Carlo model of grain growth,” *Acta Materialia* **82**, 155-166 (2015). [doi:10.1016/j.actamat.2014.08.063](https://doi.org/10.1016/j.actamat.2014.08.063)
 
 ## Architecture
 

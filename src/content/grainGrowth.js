@@ -4,7 +4,7 @@ export const grainGrowthReferences = Object.freeze([
     year: 1952,
     title: "Some generalized order-disorder transformations",
     publication:
-      "Mathematical Proceedings of the Cambridge Philosophical Society 48(1), 106–109",
+      "Mathematical Proceedings of the Cambridge Philosophical Society 48(1), 106-109",
     url: "https://doi.org/10.1017/S0305004100027419",
   },
   {
@@ -12,14 +12,14 @@ export const grainGrowthReferences = Object.freeze([
       "N. Metropolis, A. W. Rosenbluth, M. N. Rosenbluth, A. H. Teller, and E. Teller",
     year: 1953,
     title: "Equation of State Calculations by Fast Computing Machines",
-    publication: "The Journal of Chemical Physics 21(6), 1087–1092",
+    publication: "The Journal of Chemical Physics 21(6), 1087-1092",
     url: "https://doi.org/10.1063/1.1699114",
   },
   {
     authors: "M. P. Anderson, D. J. Srolovitz, G. S. Grest, and P. S. Sahni",
     year: 1984,
     title: "Computer simulation of grain growth - I. Kinetics",
-    publication: "Acta Metallurgica 32(5), 783–791",
+    publication: "Acta Metallurgica 32(5), 783-791",
     url: "https://doi.org/10.1016/0001-6160(84)90151-2",
   },
   {
@@ -27,14 +27,14 @@ export const grainGrowthReferences = Object.freeze([
     year: 1984,
     title:
       "Computer simulation of grain growth - II. Grain size distribution, topology, and local dynamics",
-    publication: "Acta Metallurgica 32(5), 793–802",
+    publication: "Acta Metallurgica 32(5), 793-802",
     url: "https://doi.org/10.1016/0001-6160(84)90152-4",
   },
   {
     authors: "G. S. Grest, M. P. Anderson, and D. J. Srolovitz",
     year: 1988,
     title: "Domain-growth kinetics for the Q-state Potts model in two and three dimensions",
-    publication: "Physical Review B 38(7), 4752–4760",
+    publication: "Physical Review B 38(7), 4752-4760",
     url: "https://doi.org/10.1103/PhysRevB.38.4752",
   },
   {
@@ -42,14 +42,14 @@ export const grainGrowthReferences = Object.freeze([
     year: 1991,
     title:
       "Effects of lattice anisotropy and temperature on domain growth in the two-dimensional Potts model",
-    publication: "Physical Review A 43(6), 2662–2668",
+    publication: "Physical Review A 43(6), 2662-2668",
     url: "https://doi.org/10.1103/PhysRevA.43.2662",
   },
   {
     authors: "D. Raabe",
     year: 2000,
     title: "Scaling Monte Carlo kinetics of the Potts model using rate theory",
-    publication: "Acta Materialia 48(7), 1617–1628",
+    publication: "Acta Materialia 48(7), 1617-1628",
     url: "https://doi.org/10.1016/S1359-6454(99)00451-6",
   },
 ]);
