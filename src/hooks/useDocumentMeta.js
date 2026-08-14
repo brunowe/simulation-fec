@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 const SITE_NAME = "Bruno Weber - Simulation Lab";
-const SITE_URL = "https://brunoweber-simlab.netlify.app";
+const SITE_URL = "https://brunoweber.dev";
 const DEFAULT_DESCRIPTION =
   "Interactive numerical experiments across science and engineering by Bruno Weber.";
 

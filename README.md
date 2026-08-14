@@ -2,7 +2,7 @@
 
 Interactive numerical experiments across science and engineering.
 
-[Open the live lab](https://brunoweber-simlab.netlify.app/) · [Run the Grain Growth Model](https://brunoweber-simlab.netlify.app/simulations/grain-growth)
+[Open the live lab](https://brunoweber.dev/) · [Run the Grain Growth Model](https://brunoweber.dev/simulations/grain-growth)
 
 Simulation Lab is Bruno Weber's public portfolio for numerical modelling, scientific computing, interactive visualization, and engineering software. Each runnable experiment places its method, parameters, assumptions, and limitations next to the result. The lab is experimental software, not a commercial product or a certified engineering tool.
 
@@ -12,7 +12,7 @@ Simulation Lab is Bruno Weber's public portfolio for numerical modelling, scient
 
 | Project | Status | Method | What is available |
 | --- | --- | --- | --- |
-| [Grain Growth Model](https://brunoweber-simlab.netlify.app/simulations/grain-growth) | Experimental | 2D neighbor-copy Monte Carlo Potts variant | Seeded initialization, in-browser evolution, live metrics, controls, model notes, and references |
+| [Grain Growth Model](https://brunoweber.dev/simulations/grain-growth) | Experimental | 2D neighbor-copy Monte Carlo Potts variant | Seeded initialization, in-browser evolution, live metrics, controls, model notes, and references |
 | Laser FEM | Planned | Finite element method | Catalogue entry only; its governing model and implementation scope have not yet been defined |
 
 “Experimental” means the software runs and is tested, while its scientific output remains qualitative and uncalibrated. “Planned” does not imply that a demo, result, or delivery date exists.
