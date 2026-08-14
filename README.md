@@ -147,7 +147,7 @@ No backend, authentication, database, analytics, CMS, or contact form is used.
 
 Requirements:
 
-- Node.js 22.12 or later
+- Node.js 22.13 or later in the 22.x line, or Node.js 24+
 - Corepack with pnpm 11.16
 
 ```bash
