@@ -21,27 +21,124 @@ const project = getProjectBySlug("grain-growth");
 function Metric({ label, note, value }) {
   return (
     <div className="simulation-metric">
-      <span>{label}</span>
-      <strong>{value}</strong>
-      <small>{note}</small>
+      <dt>{label}</dt>
+      <dd>
+        <strong>{value}</strong>
+        <small>{note}</small>
+      </dd>
     </div>
   );
 }
 
-function Equation({ children, label }) {
+function BoundaryEnergyEquation() {
   return (
-    <div aria-label={label} className="equation" role="math">
-      {children}
-    </div>
+    <math
+      aria-label="H equals J times the sum over undirected neighboring pairs of one minus the Kronecker delta of their labels. Epsilon equals H divided by J."
+      className="method-equation"
+      display="block"
+    >
+      <semantics>
+        <mrow>
+          <mi>H</mi>
+          <mo>=</mo>
+          <mi>J</mi>
+          <munder>
+            <mo>∑</mo>
+            <mrow>
+              <mo>⟨</mo>
+              <mi>i</mi>
+              <mo>,</mo>
+              <mi>j</mi>
+              <mo>⟩</mo>
+            </mrow>
+          </munder>
+          <mo>(</mo>
+          <mn>1</mn>
+          <mo>-</mo>
+          <msub>
+            <mi>δ</mi>
+            <mrow>
+              <msub>
+                <mi>q</mi>
+                <mi>i</mi>
+              </msub>
+              <msub>
+                <mi>q</mi>
+                <mi>j</mi>
+              </msub>
+            </mrow>
+          </msub>
+          <mo>)</mo>
+          <mo>;</mo>
+          <mi>ε</mi>
+          <mo>=</mo>
+          <mfrac>
+            <mi>H</mi>
+            <mi>J</mi>
+          </mfrac>
+        </mrow>
+        <annotation encoding="application/x-tex">
+          {"H=J\\sum_{\\langle i,j\\rangle}(1-\\delta_{q_iq_j}); \\epsilon=H/J"}
+        </annotation>
+      </semantics>
+    </math>
+  );
+}
+
+function AcceptanceEquation() {
+  return (
+    <math
+      aria-label="Acceptance probability is one for nonpositive delta epsilon, exponential negative delta epsilon over theta for positive delta epsilon and positive theta, and zero for uphill moves when theta is zero."
+      className="method-equation method-equation--cases"
+      display="block"
+    >
+      <semantics>
+        <mrow>
+          <msub>
+            <mi>P</mi>
+            <mi>acc</mi>
+          </msub>
+          <mo>=</mo>
+          <mo>{"{"}</mo>
+          <mtable>
+            <mtr>
+              <mtd><mn>1</mn></mtd>
+              <mtd><mtext>if </mtext><mi>Δε</mi><mo>≤</mo><mn>0</mn></mtd>
+            </mtr>
+            <mtr>
+              <mtd>
+                <mi>exp</mi>
+                <mo>(</mo>
+                <mfrac><mrow><mo>-</mo><mi>Δε</mi></mrow><mi>θ</mi></mfrac>
+                <mo>)</mo>
+              </mtd>
+              <mtd>
+                <mtext>if </mtext><mi>Δε</mi><mo>&gt;</mo><mn>0</mn>
+                <mtext> and </mtext><mi>θ</mi><mo>&gt;</mo><mn>0</mn>
+              </mtd>
+            </mtr>
+            <mtr>
+              <mtd><mn>0</mn></mtd>
+              <mtd>
+                <mtext>if </mtext><mi>Δε</mi><mo>&gt;</mo><mn>0</mn>
+                <mtext> and </mtext><mi>θ</mi><mo>=</mo><mn>0</mn>
+              </mtd>
+            </mtr>
+          </mtable>
+        </mrow>
+        <annotation encoding="application/x-tex">
+          {"P_{\\mathrm{acc}}=1 \\text{ if } \\Delta\\epsilon\\leq0; \\exp(-\\Delta\\epsilon/\\theta) \\text{ if } \\Delta\\epsilon>0,\\theta>0; 0 \\text{ otherwise}"}
+        </annotation>
+      </semantics>
+    </math>
   );
 }
 
 function AboutModel() {
   return (
-    <section aria-labelledby="about-model-title" className="model-notes">
-      <div className="model-notes__intro">
-        <p className="eyebrow">Scientific basis</p>
-        <h2 id="about-model-title">About the model</h2>
+    <section aria-labelledby="scientific-basis-title" className="scientific-section" id="method">
+      <div className="scientific-heading">
+        <h2 id="scientific-basis-title">Scientific basis</h2>
         <p>
           This experiment uses a simplified two-dimensional, neighbor-copy
           Monte Carlo Potts variant. Categorical labels occupy a periodic
@@ -50,95 +147,72 @@ function AboutModel() {
         </p>
       </div>
 
-      <div className="model-section-grid">
-        <article className="model-card model-card--wide">
-          <span className="model-card__number">01</span>
-          <div>
-            <h3>Boundary energy</h3>
-            <p>
-              A pair of Moore neighbors contributes one dimensionless energy
-              unit when their labels differ. The Kronecker delta δ is one for
-              equal labels and zero otherwise; each undirected bond is counted
-              once. The engine uses ε = ℋ/J, the dimensionless unlike-bond
-              count, with J as the energy unit.
-            </p>
-            <Equation label="Hamiltonian equals J times the sum over neighboring pairs of one minus the Kronecker delta of their states; dimensionless epsilon equals the Hamiltonian divided by J">
-              ℋ = J Σ<sub>⟨i,j⟩</sub> (1 − δ<sub>qᵢqⱼ</sub>); &nbsp;
-              ε = ℋ/J, &nbsp; J = 1
-            </Equation>
-          </div>
+      <div className="method-grid">
+        <article className="method-block">
+          <h3>Boundary energy</h3>
+          <p>
+            A pair of Moore neighbors contributes one dimensionless energy
+            unit when their labels differ. The Kronecker delta δ is one for
+            equal labels and zero otherwise; each undirected bond is counted
+            once. The engine uses ε = ℋ/J, the dimensionless unlike-bond
+            count, with J as the energy unit.
+          </p>
+          <BoundaryEnergyEquation />
         </article>
 
-        <article className="model-card model-card--wide">
-          <span className="model-card__number">02</span>
-          <div>
-            <h3>Update and acceptance</h3>
-            <p>
-              A random site proposes copying one random neighbor. Moves that do
-              not increase local energy are accepted. Uphill moves use a
-              Metropolis-shaped probability controlled by dimensionless
-              effective noise θ.
-            </p>
-            <Equation label="Acceptance probability is one for nonpositive delta energy, exponential negative delta energy over theta for positive delta energy and positive theta, and zero for uphill moves at zero theta">
-              P<sub>acc</sub> = 1 if Δε ≤ 0; &nbsp; exp(−Δε/θ) if Δε &gt; 0 and θ &gt; 0;
-              &nbsp; 0 if Δε &gt; 0 and θ = 0
-            </Equation>
-          </div>
-        </article>
-
-        <article className="model-card">
-          <span className="model-card__number">03</span>
-          <div>
-            <h3>One sweep</h3>
-            <p>
-              One Monte Carlo sweep is exactly L² attempted updates, sampled
-              with replacement. A sweep is algorithmic time; it is not a
-              physical second.
-            </p>
-          </div>
-        </article>
-
-        <article className="model-card">
-          <span className="model-card__number">04</span>
-          <div>
-            <h3>Initialization</h3>
-            <p>
-              Distinct seeded nuclei generate a periodic Voronoi tessellation.
-              It creates exactly the requested number of initial labels and is
-              reproducible, but it does not simulate nucleation.
-            </p>
-          </div>
+        <article className="method-block">
+          <h3>Update and acceptance</h3>
+          <p>
+            A random site proposes copying one random neighbor. Moves that do
+            not increase local energy are accepted. Uphill moves use a
+            Metropolis-shaped probability controlled by dimensionless
+            effective noise θ.
+          </p>
+          <AcceptanceEquation />
         </article>
       </div>
 
-      <section aria-labelledby="algorithm-title" className="model-detail-block">
+      <dl className="method-facts">
         <div>
-          <p className="panel-kicker">Algorithm</p>
-          <h3 id="algorithm-title">A sweep, step by step</h3>
+          <dt>One sweep</dt>
+          <dd>
+            Exactly L² attempted updates, sampled with replacement. A sweep is
+            algorithmic time, not a physical second.
+          </dd>
         </div>
-        <ol className="algorithm-list">
-          {modelAlgorithm.map((step, index) => (
-            <li key={step}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <p>{step}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
+        <div>
+          <dt>Initialization</dt>
+          <dd>
+            Distinct seeded nuclei generate a periodic Voronoi tessellation.
+            It creates exactly the requested number of initial labels and is
+            reproducible, but it does not simulate nucleation.
+          </dd>
+        </div>
+      </dl>
 
-      <section aria-labelledby="parameters-title" className="model-detail-block model-detail-block--stacked">
-        <div>
-          <p className="panel-kicker">Parameters and units</p>
-          <h3 id="parameters-title">Everything shown is dimensionless or lattice-based.</h3>
-        </div>
-        <div className="parameter-table-wrap">
+      <details className="disclosure" id="algorithm">
+        <summary>Algorithm - one Monte Carlo sweep</summary>
+        <ol className="algorithm-list">
+          {modelAlgorithm.map((step) => <li key={step}>{step}</li>)}
+        </ol>
+      </details>
+
+      <details className="disclosure" id="parameters">
+        <summary>Parameters and units</summary>
+        <div
+          aria-label="Model parameters and units"
+          className="parameter-table-wrap"
+          role="region"
+          tabIndex={0}
+        >
           <table className="parameter-table">
+            <caption>Parameters used by the interactive model</caption>
             <thead>
               <tr>
-                <th>Parameter</th>
-                <th>Symbol</th>
-                <th>Meaning</th>
-                <th>Unit</th>
+                <th scope="col">Parameter</th>
+                <th scope="col">Symbol</th>
+                <th scope="col">Meaning</th>
+                <th scope="col">Unit</th>
               </tr>
             </thead>
             <tbody>
@@ -153,39 +227,85 @@ function AboutModel() {
             </tbody>
           </table>
         </div>
-      </section>
+      </details>
 
-      <div className="scope-grid">
-        <section aria-labelledby="assumptions-title" className="scope-card">
-          <p className="panel-kicker">Assumptions</p>
-          <h3 id="assumptions-title">What the model assumes</h3>
-          <ul>
-            {modelAssumptions.map((assumption) => (
-              <li key={assumption}>{assumption}</li>
-            ))}
-          </ul>
+      <div className="boundaries-grid" id="boundaries">
+        <section aria-labelledby="assumptions-title">
+          <details className="boundary-disclosure disclosure">
+            <summary>
+              <h3 id="assumptions-title">Assumptions</h3>
+            </summary>
+            <div className="boundary-disclosure__body">
+              <ul className="boundary-list">
+                {modelAssumptions.map((assumption) => (
+                  <li key={assumption}>{assumption}</li>
+                ))}
+              </ul>
+            </div>
+          </details>
         </section>
-        <section aria-labelledby="limitations-title" className="scope-card scope-card--warning">
-          <p className="panel-kicker">Limitations</p>
-          <h3 id="limitations-title">What the model does not claim</h3>
-          <ul>
-            {modelLimitations.map((limitation) => (
-              <li key={limitation}>{limitation}</li>
-            ))}
-          </ul>
+        <section aria-labelledby="limitations-title">
+          <details className="boundary-disclosure disclosure">
+            <summary>
+              <h3 id="limitations-title">Limitations</h3>
+            </summary>
+            <div className="boundary-disclosure__body">
+              <ul className="boundary-list">
+                {modelLimitations.map((limitation) => (
+                  <li key={limitation}>{limitation}</li>
+                ))}
+              </ul>
+              <aside aria-labelledby="effective-noise-title" className="method-caveat" role="note">
+                <strong id="effective-noise-title">Interpretation of effective noise.</strong>
+                <p>
+                  The random-neighbor proposal is not a symmetric proposal over all
+                  Potts states. Its acceptance rule has the Metropolis form, but without
+                  a Hastings correction it should not be interpreted as exact canonical
+                  equilibrium sampling. Here θ is an exploratory kinetic-noise control,
+                  never a material temperature.
+                </p>
+              </aside>
+            </div>
+          </details>
         </section>
       </div>
 
-      <aside className="method-caveat" role="note">
-        <strong>Interpretation of effective noise.</strong>
-        <p>
-          The random-neighbor proposal is not a symmetric proposal over all
-          Potts states. Its acceptance rule has the Metropolis form, but without
-          a Hastings correction it should not be interpreted as exact canonical
-          equilibrium sampling. Here θ is an exploratory kinetic-noise control,
-          never a material temperature.
-        </p>
-      </aside>
+      <section aria-labelledby="demonstration-title" className="demonstration-summary">
+        <details className="demonstration-disclosure disclosure">
+          <summary>
+            <h3 id="demonstration-title">What this demonstrates</h3>
+          </summary>
+          <div className="demonstration-summary__body">
+            <p>
+              This working experiment connects a deterministic numerical kernel,
+              direct controls, live measurements, automated tests, and explicit
+              scientific limits in one browser-based interface.
+            </p>
+            <ul className="demonstration-list">
+              <li>A seeded two-dimensional neighbor-copy model with periodic boundaries.</li>
+              <li>Reproducible initialization and Monte Carlo updates for a given seed.</li>
+              <li>Live parameters and metrics presented beside the evolving state field.</li>
+              <li>Assumptions, limitations, and primary sources documented in context.</li>
+            </ul>
+            <p className="evidence-boundary">
+              It remains a qualitative experiment. It is not calibrated to a
+              material and should not be used for predictive or engineering decisions.
+            </p>
+            <div className="demonstration-actions">
+              <a className="text-link" href="/#projects">Back to project catalogue</a>
+              <a
+                className="quiet-link"
+                href={project.sourceUrl}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                View source <span aria-hidden="true">↗</span>
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>
+            </div>
+          </div>
+        </details>
+      </section>
 
       <section aria-labelledby="references-title" className="references-section">
         <div>
@@ -196,7 +316,10 @@ function AboutModel() {
           {grainGrowthReferences.map((reference) => (
             <li key={reference.url}>
               <span>{reference.authors} ({reference.year}).</span>{" "}
-              <a href={reference.url}>{reference.title}</a>.{" "}
+              <a href={reference.url} rel="noopener noreferrer" target="_blank">
+                {reference.title}
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>.{" "}
               <em>{reference.publication}</em>.
             </li>
           ))}
@@ -227,11 +350,13 @@ export default function GrainGrowthPage() {
 
         <header className="experiment-header">
           <div>
+            <h1>
+              Grain Growth <em>Model</em>
+            </h1>
             <div className="experiment-header__meta">
               <StatusBadge status={project.status} />
               <span>Experiment 01</span>
             </div>
-            <h1>Grain Growth Model</h1>
             <p>
               Explore how a discrete lattice reduces unlike-neighbor boundary
               energy through reproducible Monte Carlo updates. The model runs
@@ -253,36 +378,43 @@ export default function GrainGrowthPage() {
               <dd>In-browser</dd>
             </div>
           </dl>
+
+          <aside aria-labelledby="experiment-notice-title" className="experiment-notice" role="note">
+            <p>
+              <strong id="experiment-notice-title">Experimental, qualitative model.</strong> Lattice sites are
+              not micrometres, sweeps are not seconds, and effective noise θ is
+              not a physical temperature.
+            </p>
+          </aside>
         </header>
 
-        <aside className="experiment-notice" role="note">
-          <span aria-hidden="true">i</span>
-          <p>
-            <strong>Experimental, qualitative model.</strong> Lattice sites are
-            not micrometres, sweeps are not seconds, and effective noise θ is
-            not a physical temperature.
-          </p>
-        </aside>
+        <nav aria-label="On this page" className="section-index">
+          <a href="#experiment">Experiment</a>
+          <a href="#method">Method</a>
+          <a href="#parameters">Parameters</a>
+          <a href="#boundaries">Boundaries</a>
+        </nav>
 
-        <section aria-label="Interactive grain-growth workspace" className="simulation-workspace">
-          <SimulationControls simulation={simulation} />
+        <section
+          aria-label="Interactive grain-growth workspace"
+          className="simulation-workspace"
+          id="experiment"
+        >
           <section aria-labelledby="state-field-title" className="simulation-visual">
             <div className="panel-heading panel-heading--visual">
-              <div>
-                <p className="panel-kicker">02 / Observe</p>
-                <h2 id="state-field-title">Lattice state</h2>
-              </div>
+              <h2 id="state-field-title">Lattice state</h2>
               <span className="determinism-label">Seed {simulation.snapshot.config.seed}</span>
             </div>
             <GrainCanvas snapshot={simulation.snapshot} />
-            <div className="simulation-metrics-grid">
+            <dl className="simulation-metrics-grid">
               <Metric label="Sweep" note="L² attempts each" value={counters.sweeps.toLocaleString()} />
               <Metric label="Active labels" note="distinct grain IDs" value={metrics.activeGrains.toLocaleString()} />
               <Metric label="Boundary fraction" note="unlike bonds / 4L²" value={metrics.unlikeBondFraction.toFixed(3)} />
               <Metric label="Mean area" note="lattice-area units" value={metrics.meanGrainArea.toFixed(1)} />
               <Metric label="Mean eq. diameter" note="lattice spacings" value={metrics.meanEquivalentDiameter.toFixed(2)} />
-            </div>
+            </dl>
           </section>
+          <SimulationControls simulation={simulation} />
         </section>
 
         <AboutModel />

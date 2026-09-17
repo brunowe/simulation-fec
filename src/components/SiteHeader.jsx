@@ -1,5 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 
+import { ThemeToggle } from "./ThemeToggle";
+
 export function SiteHeader() {
   return (
     <header className="site-header">
@@ -15,7 +17,11 @@ export function SiteHeader() {
         </Link>
         <nav aria-label="Primary navigation" className="site-nav">
           <NavLink to="/">Projects</NavLink>
-          <a href="https://github.com/brunowe/simulation-fec">Source</a>
+          <a href="https://github.com/brunowe/simulation-fec" rel="noopener noreferrer" target="_blank">
+            Source <span aria-hidden="true">&#8599;</span>
+            <span className="sr-only"> (opens in a new tab)</span>
+          </a>
+          <ThemeToggle />
         </nav>
       </div>
     </header>
