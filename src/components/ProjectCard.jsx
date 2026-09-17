@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import { PROJECT_STATUS } from "../catalog/projects";
+import { PROJECT_STATUS, PROJECT_STATUS_LABELS } from "../catalog/projects";
 import { StatusBadge } from "./StatusBadge";
 
 export function ProjectCard({ index, project }) {
@@ -19,12 +19,20 @@ export function ProjectCard({ index, project }) {
       </div>
       <dl className="project-card__facts">
         <div>
-          <dt>Method</dt>
-          <dd>{project.numericalMethod}</dd>
+          <dt>Availability</dt>
+          <dd>{isPlanned ? "Not implemented" : "Interactive"}</dd>
         </div>
         <div>
-          <dt>Runtime</dt>
-          <dd>{isPlanned ? "Not implemented" : "In-browser"}</dd>
+          <dt>Maturity</dt>
+          <dd>{PROJECT_STATUS_LABELS[project.status]}</dd>
+        </div>
+        <div>
+          <dt>{isPlanned ? "Stage" : "Method"}</dt>
+          <dd>{isPlanned ? "Concept only" : project.numericalMethod}</dd>
+        </div>
+        <div>
+          <dt>{isPlanned ? "Scope" : "Execution"}</dt>
+          <dd>{isPlanned ? "Not yet defined" : "In-browser"}</dd>
         </div>
       </dl>
       {project.technologies.length ? (
@@ -43,8 +51,9 @@ export function ProjectCard({ index, project }) {
           <span className="muted-action">No demo available</span>
         )}
         {project.sourceUrl ? (
-          <a className="quiet-link" href={project.sourceUrl}>
-            View code
+          <a className="quiet-link" href={project.sourceUrl} rel="noopener noreferrer" target="_blank">
+            View code <span aria-hidden="true">↗</span>
+            <span className="sr-only"> (opens in a new tab)</span>
           </a>
         ) : null}
       </div>

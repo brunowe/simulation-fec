@@ -53,72 +53,81 @@ export function SimulationControls({ simulation }) {
     <aside aria-labelledby="controls-title" className="simulation-controls">
       <div className="panel-heading">
         <div>
-          <p className="panel-kicker">01 / Configure</p>
+          <p className="panel-kicker">Parameters</p>
           <h2 id="controls-title">Model controls</h2>
         </div>
         {hasPendingConfig ? <span className="pending-label">Restart to apply</span> : null}
       </div>
 
       <div className="parameter-stack">
-        <RangeField
-          label="Grid size"
-          max={192}
-          min={32}
-          name="size"
-          onChange={updateDraft}
-          step={16}
-          unit="²"
-          value={draftConfig.size}
-        />
-        <RangeField
-          label="Initial grains"
-          max={Math.min(256, draftConfig.size * draftConfig.size)}
-          min={8}
-          name="initialGrains"
-          onChange={updateDraft}
-          step={4}
-          value={draftConfig.initialGrains}
-        />
-        <RangeField
-          label="Effective noise"
-          max={2}
-          min={CONFIG_LIMITS.effectiveTemperature.min}
-          name="effectiveTemperature"
-          onChange={updateDraft}
-          step={0.05}
-          unit=" θ"
-          value={draftConfig.effectiveTemperature}
-        />
+        <fieldset className="control-cluster">
+          <legend>Initialization</legend>
+          <div className="control-grid">
+            <RangeField
+              label="Grid size"
+              max={192}
+              min={32}
+              name="size"
+              onChange={updateDraft}
+              step={16}
+              unit="²"
+              value={draftConfig.size}
+            />
+            <RangeField
+              label="Initial grains"
+              max={Math.min(256, draftConfig.size * draftConfig.size)}
+              min={8}
+              name="initialGrains"
+              onChange={updateDraft}
+              step={4}
+              value={draftConfig.initialGrains}
+            />
+            <label className="number-field" htmlFor="seed">
+              <span>Random seed</span>
+              <input
+                id="seed"
+                inputMode="numeric"
+                max={CONFIG_LIMITS.seed.max}
+                min={CONFIG_LIMITS.seed.min}
+                name="seed"
+                onChange={(event) => updateDraft("seed", event.target.value)}
+                step="1"
+                type="number"
+                value={draftConfig.seed}
+              />
+            </label>
+          </div>
+        </fieldset>
 
-        <label className="number-field" htmlFor="seed">
-          <span>Random seed</span>
-          <input
-            id="seed"
-            inputMode="numeric"
-            max={CONFIG_LIMITS.seed.max}
-            min={CONFIG_LIMITS.seed.min}
-            name="seed"
-            onChange={(event) => updateDraft("seed", event.target.value)}
-            step="1"
-            type="number"
-            value={draftConfig.seed}
-          />
-        </label>
-
-        <label className="select-field" htmlFor="simulation-speed">
-          <span>Animation speed</span>
-          <select
-            id="simulation-speed"
-            onChange={(event) => setSpeed(Number(event.target.value))}
-            value={speed}
-          >
-            {SPEED_OPTIONS.map((option) => (
-              <option key={option} value={option}>
-                {option} {option === 1 ? "sweep" : "sweeps"} / second
-              </option>
-            ))}
-          </select>
-        </label>
+        <fieldset className="control-cluster">
+          <legend>Dynamics</legend>
+          <div className="control-grid">
+            <RangeField
+              label="Effective noise"
+              max={2}
+              min={CONFIG_LIMITS.effectiveTemperature.min}
+              name="effectiveTemperature"
+              onChange={updateDraft}
+              step={0.05}
+              unit=" θ"
+              value={draftConfig.effectiveTemperature}
+            />
+            <label className="select-field" htmlFor="simulation-speed">
+              <span>Animation speed</span>
+              <select
+                id="simulation-speed"
+                onChange={(event) => setSpeed(Number(event.target.value))}
+                value={speed}
+              >
+                {SPEED_OPTIONS.map((option) => (
+                  <option key={option} value={option}>
+                    {option} {option === 1 ? "sweep" : "sweeps"} / second
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+        </fieldset>
       </div>
 
       <div className="control-actions">

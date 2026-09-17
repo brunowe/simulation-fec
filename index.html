@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,8 +7,8 @@
       name="description"
       content="Interactive numerical experiments across science and engineering by Bruno Weber."
     />
-    <meta name="theme-color" content="#070b10" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#f5efe5" />
+    <meta name="color-scheme" content="light dark" />
     <meta name="author" content="Bruno Weber" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Bruno Weber - Simulation Lab" />
@@ -38,6 +38,21 @@
     <link rel="canonical" href="https://brunoweber.dev/" />
     <link rel="icon" href="/favicon-bw.svg" sizes="any" type="image/svg+xml" />
     <title>Bruno Weber - Simulation Lab</title>
+    <script>
+      (() => {
+        try {
+          const storedTheme = localStorage.getItem("simulation-lab-theme");
+          const theme = storedTheme === "dark" ? "dark" : "light";
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme = theme;
+          document
+            .querySelector('meta[name="theme-color"]')
+            ?.setAttribute("content", theme === "dark" ? "#12100f" : "#f5efe5");
+        } catch {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

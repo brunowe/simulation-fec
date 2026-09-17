@@ -12,9 +12,54 @@ function visit(path) {
 describe("Bruno Weber - Simulation Lab", () => {
   beforeEach(() => {
     window.history.pushState({}, "", "/");
+    window.localStorage.clear();
+    document.documentElement.dataset.theme = "light";
+    document.documentElement.style.colorScheme = "light";
+    let themeColor = document.querySelector('meta[name="theme-color"]');
+    if (!themeColor) {
+      themeColor = document.createElement("meta");
+      themeColor.setAttribute("name", "theme-color");
+      document.head.append(themeColor);
+    }
+    themeColor.setAttribute("content", "#f5efe5");
     window.requestAnimationFrame.mockReset().mockImplementation(() => 1);
     window.cancelAnimationFrame.mockClear();
     window.scrollTo.mockClear();
+  });
+
+  it("uses light by default and persists the selected theme", async () => {
+    const user = userEvent.setup();
+    const view = visit("/");
+    const themeToggle = screen.getByRole("button", { name: "Switch to dark theme" });
+
+    expect(document.documentElement).toHaveAttribute("data-theme", "light");
+
+    await user.click(themeToggle);
+
+    expect(document.documentElement).toHaveAttribute("data-theme", "dark");
+    expect(document.documentElement.style.colorScheme).toBe("dark");
+    expect(document.querySelector('meta[name="theme-color"]')).toHaveAttribute(
+      "content",
+      "#12100f",
+    );
+    expect(window.localStorage.getItem("simulation-lab-theme")).toBe("dark");
+    expect(themeToggle).toHaveAccessibleName("Switch to light theme");
+
+    view.unmount();
+    delete document.documentElement.dataset.theme;
+    document.documentElement.style.colorScheme = "";
+    visit("/");
+
+    expect(document.documentElement).toHaveAttribute("data-theme", "dark");
+    const restoredToggle = screen.getByRole("button", { name: "Switch to light theme" });
+    expect(restoredToggle).toBeInTheDocument();
+
+    await user.click(restoredToggle);
+    expect(document.documentElement).toHaveAttribute("data-theme", "light");
+    expect(document.querySelector('meta[name="theme-color"]')).toHaveAttribute(
+      "content",
+      "#f5efe5",
+    );
   });
 
   it("presents the platform identity and registry-driven catalogue", () => {
@@ -26,9 +71,13 @@ describe("Bruno Weber - Simulation Lab", () => {
     expect(screen.getByText(/bruno weber - simulation lab is/i)).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Grain Growth Model" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Laser FEM" })).toBeInTheDocument();
-    expect(screen.getByText("Experimental")).toBeInTheDocument();
+    expect(screen.getAllByText("Experimental")).not.toHaveLength(0);
     expect(screen.getAllByText("Planned")).not.toHaveLength(0);
     expect(screen.queryByText(/cooling schedule explorer/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/evidence boundary/i)).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("img", { name: /after 0 sweeps with 36 active grain labels/i }),
+    ).toBeInTheDocument();
   });
 
   it("links the active experiment while keeping Laser FEM explicitly unavailable", () => {
@@ -60,6 +109,14 @@ describe("Bruno Weber - Simulation Lab", () => {
     expect(screen.getByRole("main")).toHaveFocus();
     expect(
       screen.getByRole("img", { name: /after 0 sweeps with 64 active grain labels/i }),
+    ).toBeInTheDocument();
+    const sectionIndex = screen.getByRole("navigation", { name: "On this page" });
+    expect(within(sectionIndex).getByRole("link", { name: "Experiment" })).toHaveAttribute(
+      "href",
+      "#experiment",
+    );
+    expect(
+      screen.getByRole("region", { name: "Model parameters and units" }),
     ).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: /^step/i }));

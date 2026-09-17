@@ -21,24 +21,122 @@ const project = getProjectBySlug("grain-growth");
 function Metric({ label, note, value }) {
   return (
     <div className="simulation-metric">
-      <span>{label}</span>
-      <strong>{value}</strong>
-      <small>{note}</small>
+      <dt>{label}</dt>
+      <dd>
+        <strong>{value}</strong>
+        <small>{note}</small>
+      </dd>
     </div>
   );
 }
 
-function Equation({ children, label }) {
+function BoundaryEnergyEquation() {
   return (
-    <div aria-label={label} className="equation" role="math">
-      {children}
-    </div>
+    <math
+      aria-label="H equals J times the sum over undirected neighboring pairs of one minus the Kronecker delta of their labels. Epsilon equals H divided by J."
+      className="equation"
+      display="block"
+    >
+      <semantics>
+        <mrow>
+          <mi>H</mi>
+          <mo>=</mo>
+          <mi>J</mi>
+          <munder>
+            <mo>∑</mo>
+            <mrow>
+              <mo>⟨</mo>
+              <mi>i</mi>
+              <mo>,</mo>
+              <mi>j</mi>
+              <mo>⟩</mo>
+            </mrow>
+          </munder>
+          <mo>(</mo>
+          <mn>1</mn>
+          <mo>-</mo>
+          <msub>
+            <mi>δ</mi>
+            <mrow>
+              <msub>
+                <mi>q</mi>
+                <mi>i</mi>
+              </msub>
+              <msub>
+                <mi>q</mi>
+                <mi>j</mi>
+              </msub>
+            </mrow>
+          </msub>
+          <mo>)</mo>
+          <mo>;</mo>
+          <mi>ε</mi>
+          <mo>=</mo>
+          <mfrac>
+            <mi>H</mi>
+            <mi>J</mi>
+          </mfrac>
+        </mrow>
+        <annotation encoding="application/x-tex">
+          {"H=J\\sum_{\\langle i,j\\rangle}(1-\\delta_{q_iq_j}); \\epsilon=H/J"}
+        </annotation>
+      </semantics>
+    </math>
+  );
+}
+
+function AcceptanceEquation() {
+  return (
+    <math
+      aria-label="Acceptance probability is one for nonpositive delta epsilon, exponential negative delta epsilon over theta for positive delta epsilon and positive theta, and zero for uphill moves when theta is zero."
+      className="equation"
+      display="block"
+    >
+      <semantics>
+        <mrow>
+          <msub>
+            <mi>P</mi>
+            <mi>acc</mi>
+          </msub>
+          <mo>=</mo>
+          <mo>{"{"}</mo>
+          <mtable>
+            <mtr>
+              <mtd><mn>1</mn></mtd>
+              <mtd><mtext>if </mtext><mi>Δε</mi><mo>≤</mo><mn>0</mn></mtd>
+            </mtr>
+            <mtr>
+              <mtd>
+                <mi>exp</mi>
+                <mo>(</mo>
+                <mfrac><mrow><mo>-</mo><mi>Δε</mi></mrow><mi>θ</mi></mfrac>
+                <mo>)</mo>
+              </mtd>
+              <mtd>
+                <mtext>if </mtext><mi>Δε</mi><mo>&gt;</mo><mn>0</mn>
+                <mtext> and </mtext><mi>θ</mi><mo>&gt;</mo><mn>0</mn>
+              </mtd>
+            </mtr>
+            <mtr>
+              <mtd><mn>0</mn></mtd>
+              <mtd>
+                <mtext>if </mtext><mi>Δε</mi><mo>&gt;</mo><mn>0</mn>
+                <mtext> and </mtext><mi>θ</mi><mo>=</mo><mn>0</mn>
+              </mtd>
+            </mtr>
+          </mtable>
+        </mrow>
+        <annotation encoding="application/x-tex">
+          {"P_{\\mathrm{acc}}=1 \\text{ if } \\Delta\\epsilon\\leq0; \\exp(-\\Delta\\epsilon/\\theta) \\text{ if } \\Delta\\epsilon>0,\\theta>0; 0 \\text{ otherwise}"}
+        </annotation>
+      </semantics>
+    </math>
   );
 }
 
 function AboutModel() {
   return (
-    <section aria-labelledby="about-model-title" className="model-notes">
+    <section aria-labelledby="about-model-title" className="model-notes" id="method">
       <div className="model-notes__intro">
         <p className="eyebrow">Scientific basis</p>
         <h2 id="about-model-title">About the model</h2>
@@ -62,10 +160,7 @@ function AboutModel() {
               once. The engine uses ε = ℋ/J, the dimensionless unlike-bond
               count, with J as the energy unit.
             </p>
-            <Equation label="Hamiltonian equals J times the sum over neighboring pairs of one minus the Kronecker delta of their states; dimensionless epsilon equals the Hamiltonian divided by J">
-              ℋ = J Σ<sub>⟨i,j⟩</sub> (1 − δ<sub>qᵢqⱼ</sub>); &nbsp;
-              ε = ℋ/J, &nbsp; J = 1
-            </Equation>
+            <BoundaryEnergyEquation />
           </div>
         </article>
 
@@ -79,10 +174,7 @@ function AboutModel() {
               Metropolis-shaped probability controlled by dimensionless
               effective noise θ.
             </p>
-            <Equation label="Acceptance probability is one for nonpositive delta energy, exponential negative delta energy over theta for positive delta energy and positive theta, and zero for uphill moves at zero theta">
-              P<sub>acc</sub> = 1 if Δε ≤ 0; &nbsp; exp(−Δε/θ) if Δε &gt; 0 and θ &gt; 0;
-              &nbsp; 0 if Δε &gt; 0 and θ = 0
-            </Equation>
+            <AcceptanceEquation />
           </div>
         </article>
 
@@ -111,7 +203,7 @@ function AboutModel() {
         </article>
       </div>
 
-      <section aria-labelledby="algorithm-title" className="model-detail-block">
+      <section aria-labelledby="algorithm-title" className="model-detail-block" id="algorithm">
         <div>
           <p className="panel-kicker">Algorithm</p>
           <h3 id="algorithm-title">A sweep, step by step</h3>
@@ -126,19 +218,29 @@ function AboutModel() {
         </ol>
       </section>
 
-      <section aria-labelledby="parameters-title" className="model-detail-block model-detail-block--stacked">
+      <section
+        aria-labelledby="parameters-title"
+        className="model-detail-block model-detail-block--stacked"
+        id="parameters"
+      >
         <div>
           <p className="panel-kicker">Parameters and units</p>
           <h3 id="parameters-title">Everything shown is dimensionless or lattice-based.</h3>
         </div>
-        <div className="parameter-table-wrap">
+        <div
+          aria-label="Model parameters and units"
+          className="parameter-table-wrap"
+          role="region"
+          tabIndex={0}
+        >
           <table className="parameter-table">
+            <caption className="sr-only">Model parameters and units</caption>
             <thead>
               <tr>
-                <th>Parameter</th>
-                <th>Symbol</th>
-                <th>Meaning</th>
-                <th>Unit</th>
+                <th scope="col">Parameter</th>
+                <th scope="col">Symbol</th>
+                <th scope="col">Meaning</th>
+                <th scope="col">Unit</th>
               </tr>
             </thead>
             <tbody>
@@ -155,7 +257,7 @@ function AboutModel() {
         </div>
       </section>
 
-      <div className="scope-grid">
+      <div className="scope-grid" id="boundaries">
         <section aria-labelledby="assumptions-title" className="scope-card">
           <p className="panel-kicker">Assumptions</p>
           <h3 id="assumptions-title">What the model assumes</h3>
@@ -187,6 +289,16 @@ function AboutModel() {
         </p>
       </aside>
 
+      <section aria-labelledby="demonstration-title" className="demonstration-summary">
+        <p className="panel-kicker">What this demonstrates</p>
+        <h3 id="demonstration-title">A working model with visible boundaries.</h3>
+        <p>
+          The experiment connects a deterministic numerical kernel, direct
+          manipulation, live measurements, automated tests, and explicit
+          scientific limits in one browser-based interface.
+        </p>
+      </section>
+
       <section aria-labelledby="references-title" className="references-section">
         <div>
           <p className="panel-kicker">Primary literature</p>
@@ -196,7 +308,10 @@ function AboutModel() {
           {grainGrowthReferences.map((reference) => (
             <li key={reference.url}>
               <span>{reference.authors} ({reference.year}).</span>{" "}
-              <a href={reference.url}>{reference.title}</a>.{" "}
+              <a href={reference.url} rel="noopener noreferrer" target="_blank">
+                {reference.title}
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>.{" "}
               <em>{reference.publication}</em>.
             </li>
           ))}
@@ -227,11 +342,13 @@ export default function GrainGrowthPage() {
 
         <header className="experiment-header">
           <div>
+            <h1>
+              Grain Growth <em>Model</em>
+            </h1>
             <div className="experiment-header__meta">
               <StatusBadge status={project.status} />
               <span>Experiment 01</span>
             </div>
-            <h1>Grain Growth Model</h1>
             <p>
               Explore how a discrete lattice reduces unlike-neighbor boundary
               energy through reproducible Monte Carlo updates. The model runs
@@ -255,34 +372,46 @@ export default function GrainGrowthPage() {
           </dl>
         </header>
 
-        <aside className="experiment-notice" role="note">
+        <aside aria-labelledby="experiment-notice-title" className="experiment-notice" role="note">
           <span aria-hidden="true">i</span>
           <p>
-            <strong>Experimental, qualitative model.</strong> Lattice sites are
+            <strong id="experiment-notice-title">Experimental, qualitative model.</strong> Lattice sites are
             not micrometres, sweeps are not seconds, and effective noise θ is
             not a physical temperature.
           </p>
         </aside>
 
-        <section aria-label="Interactive grain-growth workspace" className="simulation-workspace">
-          <SimulationControls simulation={simulation} />
+        <nav aria-label="On this page" className="section-index">
+          <span>On this page</span>
+          <a href="#experiment">Experiment</a>
+          <a href="#method">Method</a>
+          <a href="#parameters">Parameters</a>
+          <a href="#boundaries">Boundaries</a>
+        </nav>
+
+        <section
+          aria-label="Interactive grain-growth workspace"
+          className="simulation-workspace"
+          id="experiment"
+        >
           <section aria-labelledby="state-field-title" className="simulation-visual">
             <div className="panel-heading panel-heading--visual">
               <div>
-                <p className="panel-kicker">02 / Observe</p>
+                <p className="panel-kicker">Live state</p>
                 <h2 id="state-field-title">Lattice state</h2>
               </div>
               <span className="determinism-label">Seed {simulation.snapshot.config.seed}</span>
             </div>
             <GrainCanvas snapshot={simulation.snapshot} />
-            <div className="simulation-metrics-grid">
+            <dl className="simulation-metrics-grid">
               <Metric label="Sweep" note="L² attempts each" value={counters.sweeps.toLocaleString()} />
               <Metric label="Active labels" note="distinct grain IDs" value={metrics.activeGrains.toLocaleString()} />
               <Metric label="Boundary fraction" note="unlike bonds / 4L²" value={metrics.unlikeBondFraction.toFixed(3)} />
               <Metric label="Mean area" note="lattice-area units" value={metrics.meanGrainArea.toFixed(1)} />
               <Metric label="Mean eq. diameter" note="lattice spacings" value={metrics.meanEquivalentDiameter.toFixed(2)} />
-            </div>
+            </dl>
           </section>
+          <SimulationControls simulation={simulation} />
         </section>
 
         <AboutModel />
