@@ -81,8 +81,11 @@ describe("Bruno Weber - Simulation Lab", () => {
     expect(screen.queryByText(/cooling schedule explorer/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/evidence boundary/i)).not.toBeInTheDocument();
     expect(
-      screen.getByRole("img", { name: /after 0 sweeps with 36 active grain labels/i }),
+      screen.getByRole("img", { name: /after 0 sweeps with 12 active grain labels/i }),
     ).toBeInTheDocument();
+    expect(document.querySelector(".hero-specimen canvas.grain-canvas")).toBeInTheDocument();
+    expect(screen.getByText("Engine snapshot")).toBeInTheDocument();
+    expect(screen.getByText("Rendered by the working simulation engine")).toBeInTheDocument();
   });
 
   it("links the active experiment while keeping Laser FEM explicitly unavailable", () => {

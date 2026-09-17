@@ -2,6 +2,17 @@ import { useEffect, useMemo, useRef } from "react";
 
 import { isBoundaryCell } from "./rendering";
 
+const identityPalette = Object.freeze([
+  Object.freeze([137, 91, 54]),
+  Object.freeze([171, 93, 85]),
+  Object.freeze([78, 96, 118]),
+  Object.freeze([124, 83, 54]),
+  Object.freeze([151, 69, 63]),
+  Object.freeze([111, 121, 102]),
+  Object.freeze([160, 106, 69]),
+  Object.freeze([178, 107, 95]),
+]);
+
 function hslToRgb(hue, saturation, lightness) {
   const s = saturation / 100;
   const l = lightness / 100;
@@ -21,27 +32,32 @@ function hslToRgb(hue, saturation, lightness) {
   return rgb.map((channel) => Math.round((channel + match) * 255));
 }
 
-function colorForGrain(grainId, seed) {
+function colorForGrain(grainId, seed, palette) {
   let hash = (Math.imul(grainId + 1, 2654435761) ^ seed) >>> 0;
   hash ^= hash >>> 16;
+
+  if (palette === "identity") {
+    return identityPalette[(hash >>> 0) % identityPalette.length];
+  }
+
   const hue = hash % 360;
   const saturation = 53 + ((hash >>> 9) % 18);
   const lightness = 51 + ((hash >>> 17) % 12);
   return hslToRgb(hue, saturation, lightness);
 }
 
-export function GrainCanvas({ snapshot }) {
+export function GrainCanvas({ palette = "spectrum", snapshot }) {
   const canvasRef = useRef(null);
   const { config, counters, lattice, metrics } = snapshot;
-  const palette = useMemo(() => {
+  const colorMap = useMemo(() => {
     const colors = new Map();
     for (const grainId of lattice) {
       if (!colors.has(grainId)) {
-        colors.set(grainId, colorForGrain(grainId, config.seed));
+        colors.set(grainId, colorForGrain(grainId, config.seed, palette));
       }
     }
     return colors;
-  }, [config.seed, lattice]);
+  }, [config.seed, lattice, palette]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -52,7 +68,7 @@ export function GrainCanvas({ snapshot }) {
 
     for (let index = 0; index < lattice.length; index += 1) {
       const boundary = isBoundaryCell(lattice, index, config.size);
-      const color = palette.get(lattice[index]);
+      const color = colorMap.get(lattice[index]);
       const factor = boundary ? 0.34 : 0.92;
       const pixel = index * 4;
 
@@ -63,7 +79,7 @@ export function GrainCanvas({ snapshot }) {
     }
 
     context.putImageData(image, 0, 0);
-  }, [config.size, lattice, palette]);
+  }, [colorMap, config.size, lattice]);
 
   return (
     <div className="grain-canvas-frame">

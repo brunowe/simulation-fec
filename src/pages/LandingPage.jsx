@@ -28,7 +28,7 @@ const workflow = [
 const grainGrowthProject = getProjectBySlug("grain-growth");
 const heroSnapshot = createGrainGrowthEngine({
   effectiveTemperature: 0.1,
-  initialGrains: 36,
+  initialGrains: 12,
   seed: 2025,
   size: 64,
 }).snapshot();
@@ -57,16 +57,22 @@ export function LandingPage() {
             </p>
             <div className="button-row">
               <Link className="button button--primary" to="/simulations/grain-growth">
-                Explore Grain Growth <span aria-hidden="true">↗</span>
+                Explore Grain Growth <span aria-hidden="true">→</span>
               </Link>
               <a className="button button--text" href="#projects">
-                Browse projects
+                Browse projects <span aria-hidden="true">↓</span>
               </a>
             </div>
           </div>
 
           <figure className="hero-specimen">
-            <GrainCanvas snapshot={heroSnapshot} />
+            <div aria-hidden="true" className="hero-specimen__topline">
+              <span>Engine snapshot</span>
+              <span>Grain Growth Model</span>
+            </div>
+            <div className="hero-specimen__viewport">
+              <GrainCanvas palette="identity" snapshot={heroSnapshot} />
+            </div>
             <figcaption>
               <span>Seeded categorical lattice</span>
               <span>Rendered by the working simulation engine</span>
