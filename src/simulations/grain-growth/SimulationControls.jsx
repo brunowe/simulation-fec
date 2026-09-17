@@ -52,11 +52,10 @@ export function SimulationControls({ simulation }) {
   return (
     <aside aria-labelledby="controls-title" className="simulation-controls">
       <div className="panel-heading">
-        <div>
-          <p className="panel-kicker">Parameters</p>
-          <h2 id="controls-title">Model controls</h2>
-        </div>
-        {hasPendingConfig ? <span className="pending-label">Restart to apply</span> : null}
+        <h2 id="controls-title">Model controls</h2>
+        <span className={hasPendingConfig ? "pending-label" : "interaction-label"}>
+          {hasPendingConfig ? "Restart to apply" : "Interactive"}
+        </span>
       </div>
 
       <div className="parameter-stack">

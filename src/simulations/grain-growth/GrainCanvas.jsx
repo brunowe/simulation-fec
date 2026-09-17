@@ -69,7 +69,7 @@ export function GrainCanvas({ snapshot }) {
     <div className="grain-canvas-frame">
       <div className="grain-canvas-frame__topline">
         <span>State field / q(x, y)</span>
-        <span>{config.size} × {config.size}</span>
+        <span>{config.size} × {config.size} lattice sites</span>
       </div>
       <canvas
         aria-label={`Grain lattice after ${counters.sweeps} sweeps with ${metrics.activeGrains} active grain labels.`}

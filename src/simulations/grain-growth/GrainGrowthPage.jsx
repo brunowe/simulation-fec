@@ -370,19 +370,17 @@ export default function GrainGrowthPage() {
               <dd>In-browser</dd>
             </div>
           </dl>
+
+          <aside aria-labelledby="experiment-notice-title" className="experiment-notice" role="note">
+            <p>
+              <strong id="experiment-notice-title">Experimental, qualitative model.</strong> Lattice sites are
+              not micrometres, sweeps are not seconds, and effective noise θ is
+              not a physical temperature.
+            </p>
+          </aside>
         </header>
 
-        <aside aria-labelledby="experiment-notice-title" className="experiment-notice" role="note">
-          <span aria-hidden="true">i</span>
-          <p>
-            <strong id="experiment-notice-title">Experimental, qualitative model.</strong> Lattice sites are
-            not micrometres, sweeps are not seconds, and effective noise θ is
-            not a physical temperature.
-          </p>
-        </aside>
-
         <nav aria-label="On this page" className="section-index">
-          <span>On this page</span>
           <a href="#experiment">Experiment</a>
           <a href="#method">Method</a>
           <a href="#parameters">Parameters</a>
@@ -396,10 +394,7 @@ export default function GrainGrowthPage() {
         >
           <section aria-labelledby="state-field-title" className="simulation-visual">
             <div className="panel-heading panel-heading--visual">
-              <div>
-                <p className="panel-kicker">Live state</p>
-                <h2 id="state-field-title">Lattice state</h2>
-              </div>
+              <h2 id="state-field-title">Lattice state</h2>
               <span className="determinism-label">Seed {simulation.snapshot.config.seed}</span>
             </div>
             <GrainCanvas snapshot={simulation.snapshot} />
