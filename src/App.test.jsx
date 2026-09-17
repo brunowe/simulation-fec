@@ -20,28 +20,24 @@ describe("Bruno Weber - Simulation Lab", () => {
   beforeEach(() => {
     window.history.pushState({}, "", "/");
     window.localStorage.clear();
-    document.documentElement.dataset.theme = "light";
-    document.documentElement.style.colorScheme = "light";
+    delete document.documentElement.dataset.theme;
+    document.documentElement.style.colorScheme = "";
     let themeColor = document.querySelector('meta[name="theme-color"]');
     if (!themeColor) {
       themeColor = document.createElement("meta");
       themeColor.setAttribute("name", "theme-color");
       document.head.append(themeColor);
     }
-    themeColor.setAttribute("content", "#f5efe5");
+    themeColor.setAttribute("content", "#12100f");
     window.requestAnimationFrame.mockReset().mockImplementation(() => 1);
     window.cancelAnimationFrame.mockClear();
     window.scrollTo.mockClear();
   });
 
-  it("uses light by default and persists the selected theme", async () => {
+  it("uses dark by default and persists the selected theme", async () => {
     const user = userEvent.setup();
     const view = visit("/");
-    const themeToggle = screen.getByRole("button", { name: "Switch to dark theme" });
-
-    expect(document.documentElement).toHaveAttribute("data-theme", "light");
-
-    await user.click(themeToggle);
+    const themeToggle = screen.getByRole("button", { name: "Switch to light theme" });
 
     expect(document.documentElement).toHaveAttribute("data-theme", "dark");
     expect(document.documentElement.style.colorScheme).toBe("dark");
@@ -50,22 +46,32 @@ describe("Bruno Weber - Simulation Lab", () => {
       "#12100f",
     );
     expect(window.localStorage.getItem("simulation-lab-theme")).toBe("dark");
-    expect(themeToggle).toHaveAccessibleName("Switch to light theme");
+
+    await user.click(themeToggle);
+
+    expect(document.documentElement).toHaveAttribute("data-theme", "light");
+    expect(document.documentElement.style.colorScheme).toBe("light");
+    expect(document.querySelector('meta[name="theme-color"]')).toHaveAttribute(
+      "content",
+      "#f5efe5",
+    );
+    expect(window.localStorage.getItem("simulation-lab-theme")).toBe("light");
+    expect(themeToggle).toHaveAccessibleName("Switch to dark theme");
 
     view.unmount();
     delete document.documentElement.dataset.theme;
     document.documentElement.style.colorScheme = "";
     visit("/");
 
-    expect(document.documentElement).toHaveAttribute("data-theme", "dark");
-    const restoredToggle = screen.getByRole("button", { name: "Switch to light theme" });
+    expect(document.documentElement).toHaveAttribute("data-theme", "light");
+    const restoredToggle = screen.getByRole("button", { name: "Switch to dark theme" });
     expect(restoredToggle).toBeInTheDocument();
 
     await user.click(restoredToggle);
-    expect(document.documentElement).toHaveAttribute("data-theme", "light");
+    expect(document.documentElement).toHaveAttribute("data-theme", "dark");
     expect(document.querySelector('meta[name="theme-color"]')).toHaveAttribute(
       "content",
-      "#f5efe5",
+      "#12100f",
     );
   });
 

@@ -14,10 +14,10 @@ function readInitialTheme() {
     const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
     if (isTheme(storedTheme)) return storedTheme;
   } catch {
-    return "light";
+    return "dark";
   }
 
-  return "light";
+  return "dark";
 }
 
 function applyTheme(theme) {

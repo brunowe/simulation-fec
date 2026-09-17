@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,7 +7,7 @@
       name="description"
       content="Interactive numerical experiments across science and engineering by Bruno Weber."
     />
-    <meta name="theme-color" content="#f5efe5" />
+    <meta name="theme-color" content="#12100f" />
     <meta name="color-scheme" content="light dark" />
     <meta name="author" content="Bruno Weber" />
     <meta property="og:type" content="website" />
@@ -42,14 +42,19 @@
       (() => {
         try {
           const storedTheme = localStorage.getItem("simulation-lab-theme");
-          const theme = storedTheme === "dark" ? "dark" : "light";
+          const theme =
+            storedTheme === "light" || storedTheme === "dark" ? storedTheme : "dark";
           document.documentElement.dataset.theme = theme;
           document.documentElement.style.colorScheme = theme;
           document
             .querySelector('meta[name="theme-color"]')
             ?.setAttribute("content", theme === "dark" ? "#12100f" : "#f5efe5");
         } catch {
-          document.documentElement.dataset.theme = "light";
+          document.documentElement.dataset.theme = "dark";
+          document.documentElement.style.colorScheme = "dark";
+          document
+            .querySelector('meta[name="theme-color"]')
+            ?.setAttribute("content", "#12100f");
         }
       })();
     </script>
