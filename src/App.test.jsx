@@ -6,6 +6,8 @@ import App from "./App";
 import {
   grainGrowthReferences,
   modelAlgorithm,
+  modelAssumptions,
+  modelLimitations,
   modelParameters,
 } from "./content/grainGrowth";
 
@@ -81,7 +83,7 @@ describe("Bruno Weber - Simulation Lab", () => {
     expect(screen.queryByText(/cooling schedule explorer/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/evidence boundary/i)).not.toBeInTheDocument();
     expect(
-      screen.getByRole("img", { name: /after 0 sweeps with 12 active grain labels/i }),
+      screen.getByRole("img", { name: /after 0 sweeps with 20 active grain labels/i }),
     ).toBeInTheDocument();
     expect(document.querySelector(".hero-specimen canvas.grain-canvas")).toBeInTheDocument();
     expect(screen.getByText("Engine snapshot")).toBeInTheDocument();
@@ -185,14 +187,65 @@ describe("Bruno Weber - Simulation Lab", () => {
     expect(within(parameterRegion).getAllByRole("row")).toHaveLength(
       modelParameters.length + 1,
     );
+
+    const assumptionsSummary = within(scientificBasis).getByText("Assumptions");
+    const assumptionsDetails = assumptionsSummary.closest("details");
+    expect(
+      within(scientificBasis).getByRole("heading", {
+        name: "Assumptions",
+        level: 3,
+      }),
+    ).toBeInTheDocument();
+    expect(assumptionsDetails).not.toHaveAttribute("open");
+
+    await user.click(assumptionsSummary);
+
+    expect(assumptionsDetails).toHaveAttribute("open");
+    expect(within(assumptionsDetails).getAllByRole("listitem")).toHaveLength(
+      modelAssumptions.length,
+    );
+
+    const limitationsSummary = within(scientificBasis).getByText("Limitations");
+    const limitationsDetails = limitationsSummary.closest("details");
+    expect(
+      within(scientificBasis).getByRole("heading", {
+        name: "Limitations",
+        level: 3,
+      }),
+    ).toBeInTheDocument();
+    expect(limitationsDetails).not.toHaveAttribute("open");
+
+    await user.click(limitationsSummary);
+
+    expect(limitationsDetails).toHaveAttribute("open");
+    expect(within(limitationsDetails).getAllByRole("listitem")).toHaveLength(
+      modelLimitations.length,
+    );
+    expect(within(limitationsDetails).getByRole("note")).toBeInTheDocument();
   });
 
-  it("keeps the real evidence, references, and navigation in the V5 closing layout", () => {
+  it("keeps the real evidence, references, and navigation in the V5 closing layout", async () => {
+    const user = userEvent.setup();
     visit("/simulations/grain-growth");
 
     const demonstration = screen.getByRole("region", {
       name: "What this demonstrates",
     });
+    const demonstrationSummary = within(demonstration).getByText(
+      "What this demonstrates",
+    );
+    const demonstrationDetails = demonstrationSummary.closest("details");
+    expect(
+      within(demonstration).getByRole("heading", {
+        name: "What this demonstrates",
+        level: 3,
+      }),
+    ).toBeInTheDocument();
+    expect(demonstrationDetails).not.toHaveAttribute("open");
+
+    await user.click(demonstrationSummary);
+
+    expect(demonstrationDetails).toHaveAttribute("open");
     expect(demonstration).toHaveTextContent(/not calibrated to a material/i);
     expect(
       within(demonstration).getByRole("link", { name: "Back to project catalogue" }),

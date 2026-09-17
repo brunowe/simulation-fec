@@ -231,62 +231,80 @@ function AboutModel() {
 
       <div className="boundaries-grid" id="boundaries">
         <section aria-labelledby="assumptions-title">
-          <h3 id="assumptions-title">Assumptions</h3>
-          <ul className="boundary-list">
-            {modelAssumptions.map((assumption) => (
-              <li key={assumption}>{assumption}</li>
-            ))}
-          </ul>
+          <details className="boundary-disclosure disclosure">
+            <summary>
+              <h3 id="assumptions-title">Assumptions</h3>
+            </summary>
+            <div className="boundary-disclosure__body">
+              <ul className="boundary-list">
+                {modelAssumptions.map((assumption) => (
+                  <li key={assumption}>{assumption}</li>
+                ))}
+              </ul>
+            </div>
+          </details>
         </section>
         <section aria-labelledby="limitations-title">
-          <h3 id="limitations-title">Limitations</h3>
-          <ul className="boundary-list">
-            {modelLimitations.map((limitation) => (
-              <li key={limitation}>{limitation}</li>
-            ))}
-          </ul>
-          <aside aria-labelledby="effective-noise-title" className="method-caveat" role="note">
-            <strong id="effective-noise-title">Interpretation of effective noise.</strong>
-            <p>
-              The random-neighbor proposal is not a symmetric proposal over all
-              Potts states. Its acceptance rule has the Metropolis form, but without
-              a Hastings correction it should not be interpreted as exact canonical
-              equilibrium sampling. Here θ is an exploratory kinetic-noise control,
-              never a material temperature.
-            </p>
-          </aside>
+          <details className="boundary-disclosure disclosure">
+            <summary>
+              <h3 id="limitations-title">Limitations</h3>
+            </summary>
+            <div className="boundary-disclosure__body">
+              <ul className="boundary-list">
+                {modelLimitations.map((limitation) => (
+                  <li key={limitation}>{limitation}</li>
+                ))}
+              </ul>
+              <aside aria-labelledby="effective-noise-title" className="method-caveat" role="note">
+                <strong id="effective-noise-title">Interpretation of effective noise.</strong>
+                <p>
+                  The random-neighbor proposal is not a symmetric proposal over all
+                  Potts states. Its acceptance rule has the Metropolis form, but without
+                  a Hastings correction it should not be interpreted as exact canonical
+                  equilibrium sampling. Here θ is an exploratory kinetic-noise control,
+                  never a material temperature.
+                </p>
+              </aside>
+            </div>
+          </details>
         </section>
       </div>
 
       <section aria-labelledby="demonstration-title" className="demonstration-summary">
-        <h3 id="demonstration-title">What this demonstrates</h3>
-        <p>
-          This working experiment connects a deterministic numerical kernel,
-          direct controls, live measurements, automated tests, and explicit
-          scientific limits in one browser-based interface.
-        </p>
-        <ul className="demonstration-list">
-          <li>A seeded two-dimensional neighbor-copy model with periodic boundaries.</li>
-          <li>Reproducible initialization and Monte Carlo updates for a given seed.</li>
-          <li>Live parameters and metrics presented beside the evolving state field.</li>
-          <li>Assumptions, limitations, and primary sources documented in context.</li>
-        </ul>
-        <p className="evidence-boundary">
-          It remains a qualitative experiment. It is not calibrated to a
-          material and should not be used for predictive or engineering decisions.
-        </p>
-        <div className="demonstration-actions">
-          <a className="text-link" href="/#projects">Back to project catalogue</a>
-          <a
-            className="quiet-link"
-            href={project.sourceUrl}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            View source <span aria-hidden="true">↗</span>
-            <span className="sr-only"> (opens in a new tab)</span>
-          </a>
-        </div>
+        <details className="demonstration-disclosure disclosure">
+          <summary>
+            <h3 id="demonstration-title">What this demonstrates</h3>
+          </summary>
+          <div className="demonstration-summary__body">
+            <p>
+              This working experiment connects a deterministic numerical kernel,
+              direct controls, live measurements, automated tests, and explicit
+              scientific limits in one browser-based interface.
+            </p>
+            <ul className="demonstration-list">
+              <li>A seeded two-dimensional neighbor-copy model with periodic boundaries.</li>
+              <li>Reproducible initialization and Monte Carlo updates for a given seed.</li>
+              <li>Live parameters and metrics presented beside the evolving state field.</li>
+              <li>Assumptions, limitations, and primary sources documented in context.</li>
+            </ul>
+            <p className="evidence-boundary">
+              It remains a qualitative experiment. It is not calibrated to a
+              material and should not be used for predictive or engineering decisions.
+            </p>
+            <div className="demonstration-actions">
+              <a className="text-link" href="/#projects">Back to project catalogue</a>
+              <a
+                className="quiet-link"
+                href={project.sourceUrl}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                View source <span aria-hidden="true">↗</span>
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>
+            </div>
+          </div>
+        </details>
       </section>
 
       <section aria-labelledby="references-title" className="references-section">

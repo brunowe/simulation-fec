@@ -28,7 +28,7 @@ const workflow = [
 const grainGrowthProject = getProjectBySlug("grain-growth");
 const heroSnapshot = createGrainGrowthEngine({
   effectiveTemperature: 0.1,
-  initialGrains: 12,
+  initialGrains: 20,
   seed: 2025,
   size: 64,
 }).snapshot();
