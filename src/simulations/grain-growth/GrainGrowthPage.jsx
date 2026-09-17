@@ -34,7 +34,7 @@ function BoundaryEnergyEquation() {
   return (
     <math
       aria-label="H equals J times the sum over undirected neighboring pairs of one minus the Kronecker delta of their labels. Epsilon equals H divided by J."
-      className="equation"
+      className="method-equation"
       display="block"
     >
       <semantics>
@@ -89,7 +89,7 @@ function AcceptanceEquation() {
   return (
     <math
       aria-label="Acceptance probability is one for nonpositive delta epsilon, exponential negative delta epsilon over theta for positive delta epsilon and positive theta, and zero for uphill moves when theta is zero."
-      className="equation"
+      className="method-equation method-equation--cases"
       display="block"
     >
       <semantics>
@@ -136,10 +136,9 @@ function AcceptanceEquation() {
 
 function AboutModel() {
   return (
-    <section aria-labelledby="about-model-title" className="model-notes" id="method">
-      <div className="model-notes__intro">
-        <p className="eyebrow">Scientific basis</p>
-        <h2 id="about-model-title">About the model</h2>
+    <section aria-labelledby="scientific-basis-title" className="scientific-section" id="method">
+      <div className="scientific-heading">
+        <h2 id="scientific-basis-title">Scientific basis</h2>
         <p>
           This experiment uses a simplified two-dimensional, neighbor-copy
           Monte Carlo Potts variant. Categorical labels occupy a periodic
@@ -148,85 +147,58 @@ function AboutModel() {
         </p>
       </div>
 
-      <div className="model-section-grid">
-        <article className="model-card model-card--wide">
-          <span className="model-card__number">01</span>
-          <div>
-            <h3>Boundary energy</h3>
-            <p>
-              A pair of Moore neighbors contributes one dimensionless energy
-              unit when their labels differ. The Kronecker delta δ is one for
-              equal labels and zero otherwise; each undirected bond is counted
-              once. The engine uses ε = ℋ/J, the dimensionless unlike-bond
-              count, with J as the energy unit.
-            </p>
-            <BoundaryEnergyEquation />
-          </div>
+      <div className="method-grid">
+        <article className="method-block">
+          <h3>Boundary energy</h3>
+          <p>
+            A pair of Moore neighbors contributes one dimensionless energy
+            unit when their labels differ. The Kronecker delta δ is one for
+            equal labels and zero otherwise; each undirected bond is counted
+            once. The engine uses ε = ℋ/J, the dimensionless unlike-bond
+            count, with J as the energy unit.
+          </p>
+          <BoundaryEnergyEquation />
         </article>
 
-        <article className="model-card model-card--wide">
-          <span className="model-card__number">02</span>
-          <div>
-            <h3>Update and acceptance</h3>
-            <p>
-              A random site proposes copying one random neighbor. Moves that do
-              not increase local energy are accepted. Uphill moves use a
-              Metropolis-shaped probability controlled by dimensionless
-              effective noise θ.
-            </p>
-            <AcceptanceEquation />
-          </div>
-        </article>
-
-        <article className="model-card">
-          <span className="model-card__number">03</span>
-          <div>
-            <h3>One sweep</h3>
-            <p>
-              One Monte Carlo sweep is exactly L² attempted updates, sampled
-              with replacement. A sweep is algorithmic time; it is not a
-              physical second.
-            </p>
-          </div>
-        </article>
-
-        <article className="model-card">
-          <span className="model-card__number">04</span>
-          <div>
-            <h3>Initialization</h3>
-            <p>
-              Distinct seeded nuclei generate a periodic Voronoi tessellation.
-              It creates exactly the requested number of initial labels and is
-              reproducible, but it does not simulate nucleation.
-            </p>
-          </div>
+        <article className="method-block">
+          <h3>Update and acceptance</h3>
+          <p>
+            A random site proposes copying one random neighbor. Moves that do
+            not increase local energy are accepted. Uphill moves use a
+            Metropolis-shaped probability controlled by dimensionless
+            effective noise θ.
+          </p>
+          <AcceptanceEquation />
         </article>
       </div>
 
-      <section aria-labelledby="algorithm-title" className="model-detail-block" id="algorithm">
+      <dl className="method-facts">
         <div>
-          <p className="panel-kicker">Algorithm</p>
-          <h3 id="algorithm-title">A sweep, step by step</h3>
+          <dt>One sweep</dt>
+          <dd>
+            Exactly L² attempted updates, sampled with replacement. A sweep is
+            algorithmic time, not a physical second.
+          </dd>
         </div>
-        <ol className="algorithm-list">
-          {modelAlgorithm.map((step, index) => (
-            <li key={step}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <p>{step}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
+        <div>
+          <dt>Initialization</dt>
+          <dd>
+            Distinct seeded nuclei generate a periodic Voronoi tessellation.
+            It creates exactly the requested number of initial labels and is
+            reproducible, but it does not simulate nucleation.
+          </dd>
+        </div>
+      </dl>
 
-      <section
-        aria-labelledby="parameters-title"
-        className="model-detail-block model-detail-block--stacked"
-        id="parameters"
-      >
-        <div>
-          <p className="panel-kicker">Parameters and units</p>
-          <h3 id="parameters-title">Everything shown is dimensionless or lattice-based.</h3>
-        </div>
+      <details className="disclosure" id="algorithm">
+        <summary>Algorithm - one Monte Carlo sweep</summary>
+        <ol className="algorithm-list">
+          {modelAlgorithm.map((step) => <li key={step}>{step}</li>)}
+        </ol>
+      </details>
+
+      <details className="disclosure" id="parameters">
+        <summary>Parameters and units</summary>
         <div
           aria-label="Model parameters and units"
           className="parameter-table-wrap"
@@ -234,7 +206,7 @@ function AboutModel() {
           tabIndex={0}
         >
           <table className="parameter-table">
-            <caption className="sr-only">Model parameters and units</caption>
+            <caption>Parameters used by the interactive model</caption>
             <thead>
               <tr>
                 <th scope="col">Parameter</th>
@@ -255,48 +227,66 @@ function AboutModel() {
             </tbody>
           </table>
         </div>
-      </section>
+      </details>
 
-      <div className="scope-grid" id="boundaries">
-        <section aria-labelledby="assumptions-title" className="scope-card">
-          <p className="panel-kicker">Assumptions</p>
-          <h3 id="assumptions-title">What the model assumes</h3>
-          <ul>
+      <div className="boundaries-grid" id="boundaries">
+        <section aria-labelledby="assumptions-title">
+          <h3 id="assumptions-title">Assumptions</h3>
+          <ul className="boundary-list">
             {modelAssumptions.map((assumption) => (
               <li key={assumption}>{assumption}</li>
             ))}
           </ul>
         </section>
-        <section aria-labelledby="limitations-title" className="scope-card scope-card--warning">
-          <p className="panel-kicker">Limitations</p>
-          <h3 id="limitations-title">What the model does not claim</h3>
-          <ul>
+        <section aria-labelledby="limitations-title">
+          <h3 id="limitations-title">Limitations</h3>
+          <ul className="boundary-list">
             {modelLimitations.map((limitation) => (
               <li key={limitation}>{limitation}</li>
             ))}
           </ul>
+          <aside aria-labelledby="effective-noise-title" className="method-caveat" role="note">
+            <strong id="effective-noise-title">Interpretation of effective noise.</strong>
+            <p>
+              The random-neighbor proposal is not a symmetric proposal over all
+              Potts states. Its acceptance rule has the Metropolis form, but without
+              a Hastings correction it should not be interpreted as exact canonical
+              equilibrium sampling. Here θ is an exploratory kinetic-noise control,
+              never a material temperature.
+            </p>
+          </aside>
         </section>
       </div>
 
-      <aside className="method-caveat" role="note">
-        <strong>Interpretation of effective noise.</strong>
-        <p>
-          The random-neighbor proposal is not a symmetric proposal over all
-          Potts states. Its acceptance rule has the Metropolis form, but without
-          a Hastings correction it should not be interpreted as exact canonical
-          equilibrium sampling. Here θ is an exploratory kinetic-noise control,
-          never a material temperature.
-        </p>
-      </aside>
-
       <section aria-labelledby="demonstration-title" className="demonstration-summary">
-        <p className="panel-kicker">What this demonstrates</p>
-        <h3 id="demonstration-title">A working model with visible boundaries.</h3>
+        <h3 id="demonstration-title">What this demonstrates</h3>
         <p>
-          The experiment connects a deterministic numerical kernel, direct
-          manipulation, live measurements, automated tests, and explicit
+          This working experiment connects a deterministic numerical kernel,
+          direct controls, live measurements, automated tests, and explicit
           scientific limits in one browser-based interface.
         </p>
+        <ul className="demonstration-list">
+          <li>A seeded two-dimensional neighbor-copy model with periodic boundaries.</li>
+          <li>Reproducible initialization and Monte Carlo updates for a given seed.</li>
+          <li>Live parameters and metrics presented beside the evolving state field.</li>
+          <li>Assumptions, limitations, and primary sources documented in context.</li>
+        </ul>
+        <p className="evidence-boundary">
+          It remains a qualitative experiment. It is not calibrated to a
+          material and should not be used for predictive or engineering decisions.
+        </p>
+        <div className="demonstration-actions">
+          <a className="text-link" href="/#projects">Back to project catalogue</a>
+          <a
+            className="quiet-link"
+            href={project.sourceUrl}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            View source <span aria-hidden="true">↗</span>
+            <span className="sr-only"> (opens in a new tab)</span>
+          </a>
+        </div>
       </section>
 
       <section aria-labelledby="references-title" className="references-section">

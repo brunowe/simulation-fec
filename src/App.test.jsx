@@ -3,6 +3,11 @@ import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import App from "./App";
+import {
+  grainGrowthReferences,
+  modelAlgorithm,
+  modelParameters,
+} from "./content/grainGrowth";
 
 function visit(path) {
   window.history.pushState({}, "", path);
@@ -115,9 +120,6 @@ describe("Bruno Weber - Simulation Lab", () => {
       "href",
       "#experiment",
     );
-    expect(
-      screen.getByRole("region", { name: "Model parameters and units" }),
-    ).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: /^step/i }));
 
@@ -125,6 +127,81 @@ describe("Bruno Weber - Simulation Lab", () => {
       screen.getByRole("img", { name: /after 1 sweeps/i }),
     ).toBeInTheDocument();
     expect(screen.getByText(/advanced exactly one monte carlo sweep/i)).toBeInTheDocument();
+  });
+
+  it("preserves the V5 scientific hierarchy and reveals technical details on request", async () => {
+    const user = userEvent.setup();
+    visit("/simulations/grain-growth");
+
+    const scientificBasis = await screen.findByRole("region", {
+      name: "Scientific basis",
+    });
+    expect(
+      within(scientificBasis).getByRole("heading", {
+        name: "Scientific basis",
+        level: 2,
+      }),
+    ).toBeInTheDocument();
+    expect(
+      within(scientificBasis).getByRole("heading", {
+        name: "Boundary energy",
+        level: 3,
+      }),
+    ).toBeInTheDocument();
+    expect(
+      within(scientificBasis).getByRole("heading", {
+        name: "Update and acceptance",
+        level: 3,
+      }),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "About the model" })).not.toBeInTheDocument();
+
+    const algorithmSummary = within(scientificBasis).getByText(
+      "Algorithm - one Monte Carlo sweep",
+    );
+    const algorithmDetails = algorithmSummary.closest("details");
+    expect(algorithmDetails).not.toHaveAttribute("open");
+
+    await user.click(algorithmSummary);
+
+    expect(algorithmDetails).toHaveAttribute("open");
+    expect(within(algorithmDetails).getAllByRole("listitem")).toHaveLength(
+      modelAlgorithm.length,
+    );
+
+    const parametersSummary = within(scientificBasis).getByText("Parameters and units");
+    const parametersDetails = parametersSummary.closest("details");
+    expect(parametersDetails).not.toHaveAttribute("open");
+
+    await user.click(parametersSummary);
+
+    expect(parametersDetails).toHaveAttribute("open");
+    const parameterRegion = within(parametersDetails).getByRole("region", {
+      name: "Model parameters and units",
+    });
+    expect(within(parameterRegion).getAllByRole("row")).toHaveLength(
+      modelParameters.length + 1,
+    );
+  });
+
+  it("keeps the real evidence, references, and navigation in the V5 closing layout", () => {
+    visit("/simulations/grain-growth");
+
+    const demonstration = screen.getByRole("region", {
+      name: "What this demonstrates",
+    });
+    expect(demonstration).toHaveTextContent(/not calibrated to a material/i);
+    expect(
+      within(demonstration).getByRole("link", { name: "Back to project catalogue" }),
+    ).toHaveAttribute("href", "/#projects");
+    expect(
+      within(demonstration).getByRole("link", { name: /^View source/i }),
+    ).toHaveAttribute("href", "https://github.com/brunowe/simulation-fec");
+
+    const references = screen.getByRole("region", { name: "References" });
+    expect(within(references).getAllByRole("listitem")).toHaveLength(
+      grainGrowthReferences.length,
+    );
   });
 
   it("supports start, pause, continue, seed changes, restart, and defaults", async () => {
