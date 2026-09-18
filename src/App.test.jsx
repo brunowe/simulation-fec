@@ -88,6 +88,10 @@ describe("Bruno Weber - Simulation Lab", () => {
     expect(screen.getAllByText("Planned")).not.toHaveLength(0);
     expect(screen.queryByText(/cooling schedule explorer/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/evidence boundary/i)).not.toBeInTheDocument();
+    expect(document.querySelector(".brand__mark img")).toHaveAttribute(
+      "src",
+      "/simulation-lab-symbol-09.png",
+    );
     expect(
       screen.getByRole("img", { name: /after 0 sweeps with 20 active grain labels/i }),
     ).toBeInTheDocument();
