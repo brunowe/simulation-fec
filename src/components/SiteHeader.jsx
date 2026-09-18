@@ -8,7 +8,7 @@ export function SiteHeader() {
       <div className="site-header__inner">
         <Link aria-label="Simulation Lab home" className="brand" to="/">
           <span aria-hidden="true" className="brand__mark">
-            BW
+            <img alt="" src="/simulation-lab-symbol-09.png" />
           </span>
           <span className="brand__text">
             <strong>Simulation Lab</strong>
