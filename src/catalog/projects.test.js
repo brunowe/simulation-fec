@@ -4,18 +4,28 @@ import {
   getProjectBySlug,
   projects,
   PROJECT_STATUS,
+  PROJECT_TYPE,
   validateProjectRegistry,
 } from "./projects";
 
 describe("project registry", () => {
-  it("contains one experimental demo and one planned project", () => {
-    expect(projects).toHaveLength(2);
+  it("contains an experiment, a documented case study, and a planned project", () => {
+    expect(projects).toHaveLength(3);
     expect(getProjectBySlug("grain-growth")).toMatchObject({
       demoRoute: "/simulations/grain-growth",
+      projectType: PROJECT_TYPE.INTERACTIVE_EXPERIMENT,
       status: PROJECT_STATUS.EXPERIMENTAL,
     });
-    expect(getProjectBySlug("laser-fem")).toMatchObject({
+    expect(getProjectBySlug("weldvision")).toMatchObject({
+      contentRoute: "/projects/weldvision",
       demoRoute: null,
+      projectType: PROJECT_TYPE.CASE_STUDY,
+      status: PROJECT_STATUS.IN_DEVELOPMENT,
+    });
+    expect(getProjectBySlug("laser-fem")).toMatchObject({
+      contentRoute: null,
+      demoRoute: null,
+      projectType: PROJECT_TYPE.PLANNED_STUDY,
       sourceUrl: null,
       status: PROJECT_STATUS.PLANNED,
     });
@@ -28,14 +38,27 @@ describe("project registry", () => {
   });
 
   it("rejects a demo route on a planned project", () => {
+    const laserFem = getProjectBySlug("laser-fem");
     expect(() =>
       validateProjectRegistry([
         {
-          ...projects[1],
+          ...laserFem,
           demoRoute: "/not-built",
         },
       ]),
-    ).toThrow(/planned project.*cannot expose a demo route/i);
+    ).toThrow(/planned project.*cannot expose a project route/i);
+  });
+
+  it("requires an explicit content route for case studies", () => {
+    const weldVision = getProjectBySlug("weldvision");
+    expect(() =>
+      validateProjectRegistry([
+        {
+          ...weldVision,
+          contentRoute: null,
+        },
+      ]),
+    ).toThrow(/case study.*requires a content route/i);
   });
 
   it("rejects incomplete metadata and unknown status values", () => {

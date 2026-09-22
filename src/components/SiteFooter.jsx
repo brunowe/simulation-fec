@@ -3,7 +3,7 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div>
         <strong>Bruno Weber - Simulation Lab</strong>
-        <p>Interactive numerical experiments across science and engineering.</p>
+        <p>Numerical experiments and engineering case studies.</p>
       </div>
       <div className="site-footer__meta">
         <span>Experimental software / 2026</span>

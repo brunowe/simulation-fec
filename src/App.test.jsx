@@ -10,6 +10,10 @@ import {
   modelLimitations,
   modelParameters,
 } from "./content/grainGrowth";
+import {
+  weldVisionDoesNotDemonstrate,
+  weldVisionMetrics,
+} from "./content/weldVision";
 
 function visit(path) {
   window.history.pushState({}, "", path);
@@ -83,8 +87,10 @@ describe("Bruno Weber - Simulation Lab", () => {
     ).toBeInTheDocument();
     expect(screen.getByText(/bruno weber - simulation lab is/i)).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Grain Growth Model" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "WeldVision" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Laser FEM" })).toBeInTheDocument();
     expect(screen.getAllByText("Experimental")).not.toHaveLength(0);
+    expect(screen.getAllByText("In development")).not.toHaveLength(0);
     expect(screen.getAllByText("Planned")).not.toHaveLength(0);
     expect(screen.queryByText(/cooling schedule explorer/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/evidence boundary/i)).not.toBeInTheDocument();
@@ -100,16 +106,64 @@ describe("Bruno Weber - Simulation Lab", () => {
     expect(screen.getByText("Rendered by the working simulation engine")).toBeInTheDocument();
   });
 
-  it("links the active experiment while keeping Laser FEM explicitly unavailable", () => {
+  it("links the active experiment and case study while keeping Laser FEM unavailable", () => {
     visit("/");
 
     expect(
       screen.getAllByRole("link", { name: /explore grain growth|open experiment/i }),
     ).not.toHaveLength(0);
+    expect(screen.getByRole("link", { name: /read case study/i })).toHaveAttribute(
+      "href",
+      "/projects/weldvision",
+    );
 
     const laserCard = screen.getByRole("heading", { name: "Laser FEM" }).closest("article");
     expect(within(laserCard).getByText("No demo available")).toBeInTheDocument();
     expect(within(laserCard).queryByRole("link")).not.toBeInTheDocument();
+  });
+
+  it("loads WeldVision directly with documented optical results and a separate thermal state", async () => {
+    const user = userEvent.setup();
+    visit("/projects/weldvision");
+
+    expect(
+      await screen.findByRole("heading", { name: /weldvision\s*reproducible visual analysis/i }),
+    ).toBeInTheDocument();
+    await waitFor(() => {
+      expect(document.title).toBe("WeldVision | Bruno Weber - Simulation Lab");
+      expect(document.querySelector('link[rel="canonical"]')).toHaveAttribute(
+        "href",
+        "https://brunoweber.dev/projects/weldvision",
+      );
+    });
+    expect(screen.getByRole("main")).toHaveFocus();
+    expect(screen.getByText("Evidence boundary.")).toBeInTheDocument();
+    expect(screen.getByText("WELDVISION-OPTICAL-ROBUST-V2")).toBeInTheDocument();
+    expect(screen.getByText(/no thermal model, performance metric/i)).toBeInTheDocument();
+    expect(screen.getAllByRole("img")).toHaveLength(2);
+
+    const results = screen.getByRole("region", {
+      name: "What the optical evidence supports.",
+    });
+    expect(within(results).getAllByRole("term")).toHaveLength(
+      weldVisionMetrics.length,
+    );
+    expect(within(results).getByText("0.9792")).toBeInTheDocument();
+    expect(within(results).getByText("4.65 px")).toBeInTheDocument();
+
+    const boundarySummary = screen.getByText("What this does not demonstrate");
+    const boundaryDetails = boundarySummary.closest("details");
+    expect(boundaryDetails).not.toHaveAttribute("open");
+
+    await user.click(boundarySummary);
+
+    expect(boundaryDetails).toHaveAttribute("open");
+    expect(within(boundaryDetails).getAllByRole("listitem")).toHaveLength(
+      weldVisionDoesNotDemonstrate.length,
+    );
+    expect(
+      screen.getByRole("link", { name: /doi 10.5281\/zenodo.19882091/i }),
+    ).toHaveAttribute("href", "https://doi.org/10.5281/zenodo.19882091");
   });
 
   it("loads the Grain Growth route directly and advances exactly one sweep", async () => {

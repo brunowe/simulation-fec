@@ -7,12 +7,15 @@ import { NotFoundPage } from "./pages/NotFoundPage";
 const GrainGrowthPage = lazy(
   () => import("./simulations/grain-growth/GrainGrowthPage"),
 );
+const WeldVisionPage = lazy(
+  () => import("./projects/weldvision/WeldVisionPage"),
+);
 
 function RouteFallback() {
   return (
     <main className="route-fallback" id="main-content" tabIndex={-1}>
       <div aria-hidden="true" className="route-fallback__pulse" />
-      <p>Loading experiment…</p>
+      <p>Loading project...</p>
     </main>
   );
 }
@@ -29,6 +32,14 @@ export default function App() {
             </Suspense>
           }
           path="/simulations/grain-growth"
+        />
+        <Route
+          element={
+            <Suspense fallback={<RouteFallback />}>
+              <WeldVisionPage />
+            </Suspense>
+          }
+          path="/projects/weldvision"
         />
         <Route element={<NotFoundPage />} path="*" />
       </Routes>

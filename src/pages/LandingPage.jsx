@@ -37,7 +37,7 @@ export function LandingPage() {
   useDocumentMeta({
     canonicalPath: "/",
     description:
-      "Bruno Weber's portfolio of interactive numerical experiments across scientific computing, visualization, science, and engineering.",
+      "Bruno Weber's portfolio of numerical experiments and engineering case studies across scientific computing and visualization.",
   });
 
   return (
@@ -51,9 +51,9 @@ export function LandingPage() {
             </h1>
             <p className="landing-hero__lede">
               Bruno Weber - Simulation Lab is a growing collection of
-              browser-based experiments at the intersection of numerical
-              modelling, scientific computing, interactive visualization, and
-              engineering software.
+              numerical experiments and engineering case studies at the
+              intersection of modelling, scientific computing, interactive
+              visualization, and engineering software.
             </p>
             <div className="button-row">
               <Link className="button button--primary" to="/simulations/grain-growth">
@@ -106,8 +106,8 @@ export function LandingPage() {
               <h2 id="projects-title">Models in the lab.</h2>
             </div>
             <p>
-              Status labels separate runnable experiments from work that is
-              only planned. No unavailable results or capabilities are implied.
+              Status labels separate interactive experiments, documented case
+              studies, and planned work. No unavailable capability is implied.
             </p>
           </div>
           <div className="project-grid">
