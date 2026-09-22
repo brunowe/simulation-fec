@@ -1,0 +1,777 @@
+.weldvision-page {
+  overflow: clip;
+}
+
+.weldvision-hero,
+.weldvision-section,
+.weldvision-index {
+  width: min(var(--page-width), calc(100% - 56px));
+  margin-inline: auto;
+}
+
+.weldvision-hero {
+  padding: clamp(3rem, 6vw, 5.5rem) 0 var(--space-7);
+}
+
+.weldvision-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: clamp(3rem, 7vw, 6rem);
+  color: var(--ink-dim);
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+}
+
+.weldvision-breadcrumb a {
+  text-decoration: none;
+}
+
+.weldvision-breadcrumb a:hover {
+  color: var(--wine);
+  text-decoration: underline;
+}
+
+.weldvision-hero__grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: end;
+  gap: var(--space-5);
+}
+
+.weldvision-hero__copy {
+  grid-column: 1 / 7;
+}
+
+.weldvision-hero h1 {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: clamp(4rem, 8vw, 7.5rem);
+  letter-spacing: -0.045em;
+  line-height: 0.88;
+}
+
+.weldvision-hero h1 em {
+  display: block;
+  max-width: 8ch;
+  margin-top: var(--space-2);
+  color: var(--wine);
+  font-size: 0.72em;
+  font-weight: 500;
+}
+
+.weldvision-hero__status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  color: var(--ink-dim);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.weldvision-hero__lede {
+  max-width: 59ch;
+  margin: var(--space-5) 0 0;
+  color: var(--ink-muted);
+  font-family: var(--display);
+  font-size: clamp(1.1875rem, 1.6vw, 1.375rem);
+  line-height: 1.58;
+}
+
+.weldvision-hero__facts {
+  grid-column: 7 / 13;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.weldvision-hero__facts div {
+  min-width: 0;
+  padding: var(--space-4) var(--space-5);
+}
+
+.weldvision-hero__facts div:nth-child(even) {
+  border-left: 1px solid var(--line-soft);
+}
+
+.weldvision-hero__facts div:nth-child(n + 3) {
+  border-top: 1px solid var(--line-soft);
+}
+
+.weldvision-hero__facts dt,
+.weldvision-track dt,
+.weldvision-metric dt {
+  color: var(--ink-dim);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.weldvision-hero__facts dd {
+  margin: var(--space-1) 0 0;
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.weldvision-claim {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-7);
+  border: 1px solid var(--wine);
+  border-radius: 2px;
+  padding: var(--space-4) var(--space-5);
+  color: var(--ink-muted);
+  background: color-mix(in srgb, var(--wine) 5%, var(--paper));
+}
+
+.weldvision-claim strong {
+  flex: none;
+  color: var(--ink);
+}
+
+.weldvision-index {
+  position: sticky;
+  z-index: 40;
+  top: 76px;
+  display: flex;
+  overflow-x: auto;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+  scrollbar-width: thin;
+}
+
+.weldvision-index a {
+  display: inline-flex;
+  min-height: 52px;
+  flex: none;
+  align-items: center;
+  padding-right: var(--space-6);
+  color: var(--ink-dim);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.weldvision-index a:hover {
+  color: var(--wine);
+  text-decoration: underline;
+}
+
+.weldvision-section {
+  padding: clamp(4rem, 7vw, 6.5rem) 0;
+  border-top: 1px solid var(--line);
+}
+
+.weldvision-index + .weldvision-section {
+  border-top: 0;
+}
+
+.weldvision-section__heading {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.75fr) minmax(0, 1.25fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: start;
+  margin-bottom: var(--space-8);
+}
+
+.weldvision-section__heading--compact {
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+}
+
+.weldvision-section__heading h2 {
+  max-width: 12ch;
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: clamp(2.75rem, 5.5vw, 4.75rem);
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+}
+
+.weldvision-section__heading > p,
+.weldvision-section__heading > div:last-child {
+  max-width: 68ch;
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: 1.0625rem;
+}
+
+.weldvision-section__heading > div:last-child p {
+  margin: 0;
+}
+
+.weldvision-section__heading > div:last-child p + p {
+  margin-top: var(--space-4);
+}
+
+.weldvision-figure {
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: var(--paper-raised);
+}
+
+.weldvision-figure__topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-dim);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.weldvision-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #000;
+}
+
+.weldvision-figure figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-5);
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--line);
+  color: var(--ink-dim);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.weldvision-figure figcaption span:first-child {
+  max-width: 78ch;
+}
+
+.weldvision-figure figcaption span:last-child {
+  flex: none;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.weldvision-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  list-style: none;
+}
+
+.weldvision-steps li {
+  min-width: 0;
+  padding: var(--space-5);
+  border-right: 1px solid var(--line-soft);
+}
+
+.weldvision-steps li:first-child {
+  padding-left: 0;
+}
+
+.weldvision-steps li:last-child {
+  padding-right: 0;
+  border-right: 0;
+}
+
+.weldvision-steps span {
+  color: var(--wine);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.weldvision-steps h3 {
+  margin: var(--space-5) 0 var(--space-2);
+  font-family: var(--display);
+  font-size: 1.5rem;
+  line-height: 1.1;
+}
+
+.weldvision-steps p {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: 0.9375rem;
+}
+
+.weldvision-metrics {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 0 0 var(--space-6);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.weldvision-metric {
+  min-width: 0;
+  padding: var(--space-5);
+  border-right: 1px solid var(--line-soft);
+}
+
+.weldvision-metric:first-child {
+  padding-left: 0;
+}
+
+.weldvision-metric:last-child {
+  padding-right: 0;
+  border-right: 0;
+}
+
+.weldvision-metric dd {
+  display: grid;
+  gap: var(--space-1);
+  margin: var(--space-3) 0 0;
+}
+
+.weldvision-metric strong {
+  color: var(--wine);
+  font-family: var(--display);
+  font-size: clamp(1.75rem, 3vw, 2.75rem);
+  line-height: 1;
+}
+
+.weldvision-metric small {
+  color: var(--ink-muted);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+.weldvision-evidence-note {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.25fr) minmax(0, 1fr);
+  gap: var(--space-5);
+  margin-bottom: var(--space-7);
+  border: 1px solid var(--line);
+  padding: var(--space-4) var(--space-5);
+  background: color-mix(in srgb, var(--cool) 7%, var(--paper-raised));
+}
+
+.weldvision-evidence-note strong {
+  color: var(--ink);
+}
+
+.weldvision-evidence-note p {
+  margin: 0;
+  color: var(--ink-muted);
+}
+
+.weldvision-tracks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5);
+}
+
+.weldvision-track {
+  min-width: 0;
+  border: 1px solid var(--line);
+  padding: var(--space-6);
+  background: var(--paper-raised);
+}
+
+.weldvision-track--complete {
+  box-shadow: inset 0 3px 0 var(--success);
+}
+
+.weldvision-track--pending {
+  box-shadow: inset 0 3px 0 var(--cool);
+}
+
+.weldvision-track__topline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  color: var(--ink-dim);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.weldvision-track__topline strong {
+  color: var(--cool);
+}
+
+.weldvision-track--complete .weldvision-track__topline strong {
+  color: var(--success);
+}
+
+.weldvision-track h3 {
+  margin: var(--space-7) 0 var(--space-3);
+  font-family: var(--display);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  line-height: 1;
+}
+
+.weldvision-track > p {
+  color: var(--ink-muted);
+}
+
+.weldvision-track dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: var(--space-6) 0 0;
+  border-top: 1px solid var(--line-soft);
+}
+
+.weldvision-track dl div {
+  min-width: 0;
+  padding-top: var(--space-4);
+}
+
+.weldvision-track dl div + div {
+  border-left: 1px solid var(--line-soft);
+  padding-left: var(--space-4);
+}
+
+.weldvision-track dd {
+  margin: var(--space-1) 0 0;
+  color: var(--ink);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.weldvision-track__caveat {
+  margin-top: var(--space-5);
+  border-left: 3px solid var(--cool);
+  padding-left: var(--space-4);
+  color: var(--ink) !important;
+  font-weight: 700;
+}
+
+.weldvision-disclosures {
+  border-top: 1px solid var(--line);
+}
+
+.weldvision-disclosure {
+  border-bottom: 1px solid var(--line);
+}
+
+.weldvision-disclosure summary {
+  display: flex;
+  min-height: 92px;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) 0;
+  color: var(--wine);
+  cursor: pointer;
+  list-style: none;
+}
+
+.weldvision-disclosure summary::-webkit-details-marker {
+  display: none;
+}
+
+.weldvision-disclosure summary::before {
+  content: "+";
+  width: 1.25rem;
+  flex: none;
+  font-family: var(--mono);
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.weldvision-disclosure[open] summary::before {
+  content: "-";
+}
+
+.weldvision-disclosure summary:hover {
+  color: var(--terracotta);
+}
+
+.weldvision-disclosure h3 {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: clamp(1.75rem, 3.2vw, 2.75rem);
+  line-height: 1.1;
+}
+
+.weldvision-disclosure__body {
+  padding: 0 0 var(--space-6) calc(1.25rem + var(--space-4));
+}
+
+.weldvision-disclosure__body ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3) var(--space-7);
+  max-width: 1040px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.weldvision-disclosure__body li {
+  position: relative;
+  padding-left: var(--space-5);
+  color: var(--ink-muted);
+}
+
+.weldvision-disclosure__body li::before {
+  position: absolute;
+  top: 0.72em;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--wine);
+  content: "";
+}
+
+.weldvision-reference-list {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+  list-style: none;
+}
+
+.weldvision-reference-list li {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: var(--space-5);
+  padding: var(--space-5) 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.weldvision-reference-list > li > span {
+  color: var(--wine);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.weldvision-reference-list h3 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1.375rem;
+  line-height: 1.25;
+}
+
+.weldvision-reference-list p {
+  margin: var(--space-1) 0 0;
+  color: var(--ink-muted);
+}
+
+.weldvision-reference-list a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  color: var(--wine);
+  font-weight: 800;
+}
+
+.weldvision-attribution {
+  max-width: 88ch;
+  margin: var(--space-6) 0 0;
+  color: var(--ink-dim);
+  font-size: 0.875rem;
+}
+
+.weldvision-closing {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--space-7);
+}
+
+@media (max-width: 980px) {
+  .weldvision-hero__copy,
+  .weldvision-hero__facts {
+    grid-column: 1 / -1;
+  }
+
+  .weldvision-hero__facts {
+    margin-top: var(--space-7);
+  }
+
+  .weldvision-steps,
+  .weldvision-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .weldvision-steps li,
+  .weldvision-steps li:first-child,
+  .weldvision-steps li:last-child,
+  .weldvision-metric,
+  .weldvision-metric:first-child,
+  .weldvision-metric:last-child {
+    padding: var(--space-5);
+  }
+
+  .weldvision-steps li:nth-child(2),
+  .weldvision-metric:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .weldvision-steps li:nth-child(n + 3),
+  .weldvision-metric:nth-child(n + 3) {
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .weldvision-metrics .weldvision-metric:last-child {
+    grid-column: 1 / -1;
+    border-right: 0;
+  }
+}
+
+@media (max-width: 780px) {
+  .weldvision-section__heading,
+  .weldvision-section__heading--compact {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+
+  .weldvision-tracks {
+    grid-template-columns: 1fr;
+  }
+
+  .weldvision-disclosure__body ul {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .weldvision-hero,
+  .weldvision-section,
+  .weldvision-index {
+    width: min(var(--page-width), calc(100% - 28px));
+  }
+
+  .weldvision-hero {
+    padding-top: var(--space-7);
+  }
+
+  .weldvision-breadcrumb {
+    margin-bottom: var(--space-8);
+  }
+
+  .weldvision-hero h1 {
+    font-size: clamp(3.5rem, 18vw, 5rem);
+  }
+
+  .weldvision-hero__facts {
+    grid-template-columns: 1fr;
+  }
+
+  .weldvision-hero__facts div,
+  .weldvision-hero__facts div:nth-child(even) {
+    border-left: 0;
+    padding-inline: 0;
+  }
+
+  .weldvision-hero__facts div:nth-child(n + 2) {
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .weldvision-claim,
+  .weldvision-figure figcaption,
+  .weldvision-figure__topline {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .weldvision-figure figcaption span:last-child {
+    text-align: left;
+  }
+
+  .weldvision-steps,
+  .weldvision-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .weldvision-steps li,
+  .weldvision-steps li:nth-child(2),
+  .weldvision-metric,
+  .weldvision-metric:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .weldvision-steps li:nth-child(n + 2),
+  .weldvision-metric:nth-child(n + 2) {
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .weldvision-metrics .weldvision-metric:last-child {
+    grid-column: auto;
+  }
+
+  .weldvision-evidence-note {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+  }
+
+  .weldvision-track {
+    padding: var(--space-5);
+  }
+
+  .weldvision-track dl {
+    grid-template-columns: 1fr;
+  }
+
+  .weldvision-track dl div + div {
+    margin-top: var(--space-3);
+    border-top: 1px solid var(--line-soft);
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  .weldvision-disclosure__body {
+    padding-left: 0;
+  }
+
+  .weldvision-reference-list li {
+    grid-template-columns: 32px minmax(0, 1fr);
+    gap: var(--space-3);
+  }
+
+  .weldvision-closing,
+  .weldvision-closing .button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .weldvision-figure--panoramic img {
+    animation: weldvision-figure-reveal 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+
+@keyframes weldvision-figure-reveal {
+  from {
+    clip-path: inset(0 8% 0 0);
+    opacity: 0.7;
+  }
+
+  to {
+    clip-path: inset(0);
+    opacity: 1;
+  }
+}

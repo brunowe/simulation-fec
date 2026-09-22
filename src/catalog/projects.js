@@ -12,6 +12,12 @@ export const PROJECT_STATUS_LABELS = Object.freeze({
   [PROJECT_STATUS.PLANNED]: "Planned",
 });
 
+export const PROJECT_TYPE = Object.freeze({
+  CASE_STUDY: "case-study",
+  INTERACTIVE_EXPERIMENT: "interactive-experiment",
+  PLANNED_STUDY: "planned-study",
+});
+
 export const projects = Object.freeze([
   Object.freeze({
     slug: "grain-growth",
@@ -21,8 +27,13 @@ export const projects = Object.freeze([
     scientificArea: "Microstructure evolution",
     numericalMethod: "2D Monte Carlo Potts model",
     status: PROJECT_STATUS.EXPERIMENTAL,
+    projectType: PROJECT_TYPE.INTERACTIVE_EXPERIMENT,
+    availability: "Interactive",
+    execution: "In-browser",
+    actionLabel: "Open experiment",
     technologies: Object.freeze(["React", "Canvas", "Vitest"]),
     demoRoute: "/simulations/grain-growth",
+    contentRoute: null,
     sourceUrl: "https://github.com/brunowe/simulation-fec",
     hypotheses: Object.freeze([
       "Two-dimensional square lattice with periodic boundaries",
@@ -36,6 +47,33 @@ export const projects = Object.freeze([
     ]),
   }),
   Object.freeze({
+    slug: "weldvision",
+    title: "WeldVision",
+    summary:
+      "A reproducible Python and OpenCV study for estimating a defined visual boundary in high-speed laser welding footage.",
+    scientificArea: "Computer vision / laser welding",
+    numericalMethod: "Classical computer vision",
+    status: PROJECT_STATUS.IN_DEVELOPMENT,
+    projectType: PROJECT_TYPE.CASE_STUDY,
+    availability: "Documented results",
+    execution: "Offline analysis",
+    actionLabel: "Read case study",
+    technologies: Object.freeze(["Python", "OpenCV", "NumPy"]),
+    demoRoute: null,
+    contentRoute: "/projects/weldvision",
+    sourceUrl: null,
+    hypotheses: Object.freeze([
+      "The target is a deliberately defined visual boundary in the image domain",
+      "Development and second-condition validation remain separated",
+      "Non-measurable states are preserved instead of forcing a curve",
+    ]),
+    limitations: Object.freeze([
+      "No physical structure, phase, temperature, defect, or weld quality is inferred",
+      "The optical evidence comes from two videos in one experimental campaign",
+      "The separate thermal track has no analytical result yet",
+    ]),
+  }),
+  Object.freeze({
     slug: "laser-fem",
     title: "Laser FEM",
     summary:
@@ -43,8 +81,13 @@ export const projects = Object.freeze([
     scientificArea: "Laser-matter interaction",
     numericalMethod: "Finite element method",
     status: PROJECT_STATUS.PLANNED,
+    projectType: PROJECT_TYPE.PLANNED_STUDY,
+    availability: "Not implemented",
+    execution: "Not yet defined",
+    actionLabel: null,
     technologies: Object.freeze([]),
     demoRoute: null,
+    contentRoute: null,
     sourceUrl: null,
     hypotheses: Object.freeze([]),
     limitations: Object.freeze([
@@ -68,6 +111,9 @@ export function validateProjectRegistry(registry = projects) {
       "scientificArea",
       "numericalMethod",
       "status",
+      "projectType",
+      "availability",
+      "execution",
     ];
 
     if (requiredTextFields.some((field) => !project[field]?.trim?.())) {
@@ -82,8 +128,31 @@ export function validateProjectRegistry(registry = projects) {
       throw new Error(`Unknown status for ${project.slug}: ${project.status}`);
     }
 
-    if (project.status === PROJECT_STATUS.PLANNED && project.demoRoute) {
-      throw new Error(`Planned project ${project.slug} cannot expose a demo route.`);
+    if (!Object.values(PROJECT_TYPE).includes(project.projectType)) {
+      throw new Error(`Unknown project type for ${project.slug}: ${project.projectType}`);
+    }
+
+    if (
+      project.status === PROJECT_STATUS.PLANNED &&
+      (project.demoRoute || project.contentRoute)
+    ) {
+      throw new Error(`Planned project ${project.slug} cannot expose a project route.`);
+    }
+
+    if (
+      project.projectType === PROJECT_TYPE.INTERACTIVE_EXPERIMENT &&
+      !project.demoRoute
+    ) {
+      throw new Error(`Interactive project ${project.slug} requires a demo route.`);
+    }
+
+    if (
+      project.projectType === PROJECT_TYPE.CASE_STUDY &&
+      (!project.contentRoute || project.demoRoute)
+    ) {
+      throw new Error(
+        `Case study ${project.slug} requires a content route and cannot expose a demo route.`,
+      );
     }
 
     slugs.add(project.slug);
